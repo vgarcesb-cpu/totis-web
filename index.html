@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Toti's - Systems Developer | Troubleshooting Assistance | Full Stack">
+    <meta name="keywords" content="developer, systems, troubleshooting, full stack, services">
+    <meta name="author" content="Toti's">
+    <meta property="og:title" content="Toti's - Systems Developer">
+    <meta property="og:description" content="Troubleshooting Assistance | Full Stack">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://totis.cl">
+    <title>Toti's - Systems Developer | Full Stack | Troubleshooting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e0f0ff 50%, #d0e8ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated blob backgrounds */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            mix-blend-mode: multiply;
+            filter: blur(80px);
+            opacity: 0.2;
+            animation: blob-animation 7s infinite;
+        }
+
+        .blob-1 {
+            width: 384px;
+            height: 384px;
+            background: #60a5fa;
+            top: 0;
+            right: 0;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 384px;
+            height: 384px;
+            background: #3b82f6;
+            bottom: 0;
+            left: 0;
+            animation-delay: 2s;
+        }
+
+        .blob-3 {
+            width: 384px;
+            height: 384px;
+            background: #93c5fd;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 4s;
+        }
+
+        @keyframes blob-animation {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 28rem;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(40px);
+            border-radius: 1.875rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Profile section */
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            width: 8rem;
+            height: 8rem;
+        }
+
+        .avatar-glow {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.5;
+        }
+
+        .avatar {
+            position: relative;
+            width: 8rem;
+            height: 8rem;
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+            border: 4px solid white;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e40af, #1e3a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #475569;
+            margin: 0;
+        }
+
+        .description {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Buttons section */
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .button-wrapper {
+            position: relative;
+            display: block;
+        }
+
+        .button-glow {
+            position: absolute;
+            inset: 0;
+            border-radius: 1rem;
+            filter: blur(12px);
+            opacity: 0.75;
+            transition: opacity 0.3s ease;
+        }
+
+        .button-wrapper:hover .button-glow {
+            opacity: 1;
+        }
+
+        .button-wrapper.whatsapp .button-glow {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+        }
+
+        .button-wrapper.email .button-glow {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+
+        .btn {
+            position: relative;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border: 2px solid;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-whatsapp {
+            color: #22c55e;
+            border-color: #22c55e;
+        }
+
+        .btn-whatsapp:hover {
+            box-shadow: 0 15px 30px rgba(34, 197, 94, 0.2);
+            transform: scale(1.05);
+        }
+
+        .btn-email {
+            color: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        .btn-email:hover {
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
+            transform: scale(1.05);
+        }
+
+        .btn-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Accent dots */
+        .accents {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding-top: 1rem;
+        }
+
+        .accent-dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .accent-dot:hover {
+            transform: scale(1.5);
+        }
+
+        .accent-red {
+            background: linear-gradient(135deg, #f87171, #dc2626);
+        }
+
+        .accent-yellow {
+            background: linear-gradient(135deg, #facc15, #ca8a04);
+        }
+
+        .accent-blue {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+
+        /* Footer */
+        .footer {
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        .footer-domain {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        /* Decorative elements */
+        .decoration {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .decoration-1 {
+            width: 5rem;
+            height: 5rem;
+            background: #ef4444;
+            border-radius: 0.5rem;
+            top: 2.5rem;
+            right: 2.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .decoration-2 {
+            width: 8rem;
+            height: 8rem;
+            background: #eab308;
+            border-radius: 50%;
+            bottom: 5rem;
+            left: 2.5rem;
+            animation: float 3s ease-in-out infinite 3s;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .description {
+                font-size: 0.9375rem;
+            }
+
+            .btn {
+                padding: 0.875rem 1.25rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Accessibility */
+        .btn:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated backgrounds -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Decorative elements -->
+    <div class="decoration decoration-1"></div>
+    <div class="decoration decoration-2"></div>
+
+    <!-- Main container -->
+    <div class="container">
+        <!-- Profile section -->
+        <div class="profile">
+            <div class="avatar-wrapper">
+                <div class="avatar-glow"></div>
+                <div class="avatar">T</div>
+            </div>
+            <h1 class="title">Toti's</h1>
+            <p class="subtitle">Systems Developer</p>
+            <p class="description">Troubleshooting Assistance | Full Stack</p>
+        </div>
+
+        <!-- Buttons section -->
+        <div class="buttons">
+            <div class="button-wrapper whatsapp">
+                <div class="button-glow"></div>
+                <a href="https://wa.me/56934072459" target="_blank" class="btn btn-whatsapp">
+                    <i class="fab fa-whatsapp btn-icon"></i>
+                    <span>WhatsApp</span>
+                </a>
+            </div>
+            <div class="button-wrapper email">
+                <div class="button-glow"></div>
+                <a href="mailto:vgarcesb@gmail.com" class="btn btn-email">
+                    <i class="fas fa-envelope btn-icon"></i>
+                    <span>Email</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Accent dots -->
+        <div class="accents">
+            <div class="accent-dot accent-red"></div>
+            <div class="accent-dot accent-yellow"></div>
+            <div class="accent-dot accent-blue"></div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="footer-text">© 2024 <span class="footer-domain">totis.cl</span></p>
+        </div>
+    </div>
+</body>
+</html>
