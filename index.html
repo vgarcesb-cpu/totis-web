@@ -488,6 +488,7 @@
             <p>Para acceder a esta zona, debes completar tu registro.</p>
 
             <form id="registrationForm" onsubmit="handleSubmit(event)">
+                <input type="hidden" id="selectedPlatform" value="vip">
                 <div class="form-group">
                     <label for="fullName">Nombre Completo *</label>
                     <input type="text" id="fullName" name="fullName" placeholder="Tu nombre" required>
@@ -517,16 +518,20 @@
     </div>
 
     <script>
+        let selectedPlatform = 'vip';
+
         function handleIconClick(platform) {
+            selectedPlatform = platform;
+            document.getElementById('selectedPlatform').value = platform;
             switch(platform) {
                 case 'facebook':
-                    window.open('https://www.facebook.com/tu-pagina', '_blank');
+                    document.getElementById('warningModal').style.display = 'block';
                     break;
                 case 'whatsapp':
-                    window.open('https://wa.me/56912345678', '_blank');
+                    document.getElementById('warningModal').style.display = 'block';
                     break;
                 case 'instagram':
-                    window.open('https://www.instagram.com/tu-usuario', '_blank');
+                    document.getElementById('warningModal').style.display = 'block';
                     break;
                 case 'vip':
                     document.getElementById('warningModal').style.display = 'block';
@@ -543,9 +548,27 @@
             const fullName = document.getElementById('fullName').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
+            const platform = document.getElementById('selectedPlatform').value;
 
             if (fullName && email && phone) {
                 alert(`¡Gracias ${fullName}! Tu registro ha sido recibido.\nNos contactaremos a ${email}`);
+                
+                // Redirigir según la plataforma seleccionada
+                switch(platform) {
+                    case 'facebook':
+                        window.open('https://www.facebook.com/tu-pagina', '_blank');
+                        break;
+                    case 'whatsapp':
+                        window.open('https://wa.me/56934072459', '_blank');
+                        break;
+                    case 'instagram':
+                        window.open('https://www.instagram.com/tu-usuario', '_blank');
+                        break;
+                    case 'vip':
+                        // VIP solo muestra el modal
+                        break;
+                }
+                
                 closeModal();
                 document.getElementById('registrationForm').reset();
             }
