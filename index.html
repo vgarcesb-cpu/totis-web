@@ -132,15 +132,15 @@
         }
 
         .icon-button {
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.1) 100%);
             border: 2px solid #d4af37;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
+            font-size: 26px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 
@@ -213,15 +213,17 @@
 
         .modal-content {
             background: linear-gradient(135deg, rgba(20, 20, 40, 0.98) 0%, rgba(40, 20, 60, 0.98) 100%);
-            margin: 5% auto;
-            padding: 50px;
+            margin: 10% auto;
+            padding: 30px;
             border-radius: 20px;
             width: 90%;
-            max-width: 450px;
+            max-width: 380px;
             text-align: center;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(212, 175, 55, 0.4);
             animation: slideIn 0.3s ease;
             border: 2px solid #d4af37;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         @keyframes slideIn {
@@ -236,9 +238,9 @@
         }
 
         .warning-icon {
-            font-size: 80px;
+            font-size: 60px;
             color: #ff4444;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             animation: bounce 1s infinite;
         }
 
@@ -249,42 +251,42 @@
 
         .modal h2 {
             color: #d4af37;
-            margin-bottom: 15px;
-            font-size: 28px;
+            margin-bottom: 10px;
+            font-size: 24px;
             font-family: 'Playfair Display', serif;
             letter-spacing: 1px;
         }
 
         .modal p {
             color: #d4af37;
-            margin-bottom: 20px;
-            line-height: 1.6;
-            font-size: 14px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+            font-size: 13px;
         }
 
         /* Formulario */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-align: left;
         }
 
         .form-group label {
             display: block;
             color: #d4af37;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 5px;
+            font-size: 12px;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px;
+            padding: 8px;
             border: 2px solid #d4af37;
-            border-radius: 8px;
+            border-radius: 6px;
             background: rgba(212, 175, 55, 0.08);
             color: #d4af37;
-            font-size: 14px;
+            font-size: 12px;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
         }
@@ -302,19 +304,20 @@
         /* Botones del modal */
         .modal-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             justify-content: center;
-            margin-top: 25px;
+            margin-top: 15px;
+            flex-wrap: wrap;
         }
 
         .modal-btn {
-            padding: 12px 24px;
+            padding: 8px 16px;
             border: 2px solid #d4af37;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 12px;
             font-family: 'Poppins', sans-serif;
             letter-spacing: 0.5px;
         }
@@ -366,9 +369,9 @@
             }
 
             .icon-button {
-                width: 60px;
-                height: 60px;
-                font-size: 30px;
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
             }
 
             .icons-container {
@@ -377,9 +380,10 @@
             }
 
             .modal-content {
-                margin: 30% auto;
-                padding: 30px 20px;
+                margin: 20% auto;
+                padding: 20px 15px;
                 width: 95%;
+                max-height: 80vh;
             }
         }
     </style>
