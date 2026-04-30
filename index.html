@@ -518,6 +518,27 @@
     </div>
 
     <script>
+        // DATOS OFUSCADOS - Protegidos contra copia
+        const DATOS = {
+            email: 'ABo0DB5TWV4aFwAZ',
+            whatsapp: 'QVlNWkcCBwAAQVY=',
+            facebook: 'ABpZGRJVWVxV',
+            instagram: 'ABpZHABHUUBdGw=='
+        };
+
+        // FUNCIÓN DECODIFICADORA
+        function desofuscar(texto, clave="totis2024") {
+            const xorResult = new Uint8Array(atob(texto).split('').map(c => c.charCodeAt(0)));
+            const claveBytes = new TextEncoder().encode(clave);
+            const result = new Uint8Array(xorResult.length);
+            
+            for (let i = 0; i < xorResult.length; i++) {
+                result[i] = xorResult[i] ^ claveBytes[i % claveBytes.length];
+            }
+            
+            return new TextDecoder().decode(result);
+        }
+
         let selectedPlatform = 'vip';
 
         function handleIconClick(platform) {
@@ -556,13 +577,13 @@
                 // Redirigir según la plataforma seleccionada
                 switch(platform) {
                     case 'facebook':
-                        window.open('https://www.facebook.com/tu-pagina', '_blank');
+                        window.open('https://www.facebook.com/' + desofuscar(DATOS.facebook), '_blank');
                         break;
                     case 'whatsapp':
-                        window.open('https://wa.me/56934072459', '_blank');
+                        window.open('https://wa.me/' + desofuscar(DATOS.whatsapp), '_blank');
                         break;
                     case 'instagram':
-                        window.open('https://www.instagram.com/tu-usuario', '_blank');
+                        window.open('https://www.instagram.com/' + desofuscar(DATOS.instagram), '_blank');
                         break;
                     case 'vip':
                         // VIP solo muestra el modal
