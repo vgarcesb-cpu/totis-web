@@ -487,7 +487,7 @@
             <p>Derechos Reservados Toti's</p>
             <p>Para acceder a esta zona, debes completar tu registro.</p>
 
-            <form id="registrationForm" onsubmit="handleSubmit(event)">
+            <form id="registrationForm" action="https://formspree.io/f/mdaboyye" method="POST" onsubmit="handleFormspreeSubmit(event)">
                 <input type="hidden" id="selectedPlatform" value="vip">
                 <div class="form-group">
                     <label for="fullName">Nombre Completo *</label>
@@ -564,7 +564,7 @@
             document.getElementById('warningModal').style.display = 'none';
         }
 
-        function handleSubmit(event) {
+        function handleFormspreeSubmit(event) {
             event.preventDefault();
             const fullName = document.getElementById('fullName').value;
             const email = document.getElementById('email').value;
@@ -572,26 +572,44 @@
             const platform = document.getElementById('selectedPlatform').value;
 
             if (fullName && email && phone) {
-                alert(`¡Gracias ${fullName}! Tu registro ha sido recibido.\nNos contactaremos a ${email}`);
+                const form = document.getElementById('registrationForm');
+                const formData = new FormData(form);
                 
-                // Redirigir según la plataforma seleccionada
-                switch(platform) {
-                    case 'facebook':
-                        window.open('https://www.facebook.com/' + desofuscar(DATOS.facebook), '_blank');
-                        break;
-                    case 'whatsapp':
-                        window.open('https://wa.me/' + desofuscar(DATOS.whatsapp), '_blank');
-                        break;
-                    case 'instagram':
-                        window.open('https://www.instagram.com/' + desofuscar(DATOS.instagram), '_blank');
-                        break;
-                    case 'vip':
-                        // VIP solo muestra el modal
-                        break;
-                }
-                
-                closeModal();
-                document.getElementById('registrationForm').reset();
+                fetch('https://formspree.io/f/mdaboyye', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert(`Gracias ${fullName}! Tu registro ha sido recibido.\nNos contactaremos a ${email}`);
+                        
+                        switch(platform) {
+                            case 'facebook':
+                                window.open('https://www.facebook.com/' + desofuscar(DATOS.facebook), '_blank');
+                                break;
+                            case 'whatsapp':
+                                window.open('https://wa.me/' + desofuscar(DATOS.whatsapp), '_blank');
+                                break;
+                            case 'instagram':
+                                window.open('https://www.instagram.com/' + desofuscar(DATOS.instagram), '_blank');
+                                break;
+                            case 'vip':
+                                break;
+                        }
+                        
+                        closeModal();
+                        document.getElementById('registrationForm').reset();
+                    } else {
+                        alert('Hubo un error. Intenta de nuevo.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al enviar. Intenta de nuevo.');
+                });
             }
         }
 
