@@ -166,18 +166,22 @@ header {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--gold);
-  border: 1px solid rgba(212,175,55,0.3);
+  border: 1px solid rgba(212,175,55,0.5);
   border-radius: 2px;
-  padding: 5px 12px;
-  background: rgba(212,175,55,0.05);
+  padding: 6px 14px;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
   transition: all 0.3s ease;
 }
 
 .role-pill:hover {
   border-color: var(--pink);
   color: var(--pink);
-  background: rgba(255,20,147,0.06);
-  box-shadow: 0 0 12px rgba(255,20,147,0.2);
+  background: rgba(0,0,0,0.8);
+  box-shadow: 0 0 16px rgba(255,20,147,0.35);
+  text-shadow: 0 0 8px rgba(255,20,147,0.5);
 }
 
 /* ── PROYECTOS ── */
@@ -317,16 +321,34 @@ header {
 
 .social-btn:hover {
   color: var(--gold);
-  border-color: rgba(212,175,55,0.4);
-  background: rgba(212,175,55,0.05);
-  box-shadow: 0 0 16px rgba(212,175,55,0.12);
+  border-color: rgba(212,175,55,0.5);
+  background: rgba(212,175,55,0.08);
+  box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  transform: translateY(-2px);
 }
 
 .social-btn.whatsapp:hover {
   color: #25D366;
-  border-color: rgba(37,211,102,0.35);
-  background: rgba(37,211,102,0.05);
-  box-shadow: 0 0 16px rgba(37,211,102,0.12);
+  border-color: rgba(37,211,102,0.5);
+  background: rgba(37,211,102,0.08);
+  box-shadow: 0 0 20px rgba(37,211,102,0.25);
+  transform: translateY(-2px);
+}
+
+.social-btn.facebook:hover {
+  color: #1877F2;
+  border-color: rgba(24,119,242,0.5);
+  background: rgba(24,119,242,0.08);
+  box-shadow: 0 0 20px rgba(24,119,242,0.25);
+  transform: translateY(-2px);
+}
+
+.social-btn.instagram:hover {
+  color: #E1306C;
+  border-color: rgba(225,48,108,0.5);
+  background: rgba(225,48,108,0.08);
+  box-shadow: 0 0 20px rgba(225,48,108,0.25);
+  transform: translateY(-2px);
 }
 
 /* ── FOOTER ── */
@@ -465,7 +487,7 @@ footer {
           WhatsApp
         </a>
 
-        <a class="social-btn"
+        <a class="social-btn facebook"
            href="https://www.facebook.com/vgarcesb"
            target="_blank" rel="noopener"
            title="Facebook">
@@ -475,7 +497,7 @@ footer {
           Facebook
         </a>
 
-        <a class="social-btn"
+        <a class="social-btn instagram"
            href="https://www.instagram.com/totivgb"
            target="_blank" rel="noopener"
            title="Instagram">
