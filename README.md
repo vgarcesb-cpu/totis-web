@@ -1,85 +1,116 @@
-# TOTI'S® — totis-web
+# TOTI'S® — Plan de Trabajo
 **Víctor Manuel Garcés Borje · Systems Developer · www.totis.cl**
+*Última actualización: Mayo 2026*
 
 ---
 
-## ✅ Lo que está hecho
+## ✅ Completado
 
-### Página web
-- [x] `index.html` limpio — código propio, sin Manus AI
-- [x] Diseño oscuro con imagen de fondo `fondo.png` (tuya, en el repo)
+### Página web totis-web
+- [x] index.html limpio — código propio, sin Manus AI
+- [x] Diseño oscuro con imagen de fondo fondo.png (tuya, en el repo)
 - [x] Logo TOTI'S® con animación gold
-- [x] Nombre + roles visibles contra cualquier fondo (backdrop-filter)
-- [x] 4 tarjetas de proyectos enlazadas
-- [x] Botones WhatsApp / Facebook / Instagram con colores hover correctos
+- [x] Pills SYSTEMS DEVELOPER visibles con backdrop-filter
+- [x] 4 tarjetas de proyectos enlazadas a dominios propios
+- [x] Botones WhatsApp / Facebook / Instagram con colores hover
+- [x] Modal "Conectemos" — captura visitantes antes de acceder a redes
+- [x] EmailJS conectado → notificación a vgarcesb@gmail.com
 - [x] Footer © 2026
 
 ### Dominio y hosting
-- [x] Hosting en GitHub Pages (gratis)
-- [x] Dominio `totis.cl` comprado en NIC.cl
+- [x] www.totis.cl funcionando con HTTPS ✅
 - [x] DNS gestionado por Cloudflare
-- [x] `www.totis.cl` funcionando con HTTPS ✅
-- [x] Proxy Cloudflare activo (protección ON)
+- [x] Proxy Cloudflare activo
 
-### Sistema de contacto
-- [x] Modal "Conectemos" al hacer clic en redes sociales
-- [x] Captura: Nombre + Correo + Teléfono
-- [x] EmailJS configurado (`service_wpd3adq` + `template_82bw0m7`)
-- [x] Email llega a `vgarcesb@gmail.com` con cada visitante
-- [x] Visitante accede a la red social después de llenar el formulario
-- [x] Formspree reemplazado — ya no se necesita
+### Apps industriales — dominios propios
+- [x] generadores.totis.cl → Active ✅
+- [x] caldera.totis.cl → Active ✅
+- [x] ups.totis.cl → Active ✅
+- [x] hvac.totis.cl → Active ✅
+
+### Workers — CORS actualizado
+- [x] generadores-worker → acepta generadores.totis.cl
+- [x] caldera-worker → acepta caldera.totis.cl
+- [x] ups-worker → acepta ups.totis.cl
+- [x] hvac-worker → acepta hvac.totis.cl
 
 ### Seguridad
-- [x] Apps industriales (hvac, ups, caldera, generadores) en privado ✅
+- [x] 4 repos de apps en privado ✅
+- [x] EmailJS con MFA activado ✅
 
 ---
 
-## ⏳ Lo que queda pendiente
+## ⏳ Pendiente — Por orden de prioridad
 
-### DNS Cloudflare (revisar con calma)
-- [ ] CNAME `totis.cl` (apex) — revisar si apunta correcto
-- [ ] CNAME `portal` → `m9tjbuvt.up.railway.app` — ¿qué es esto? ¿se necesita?
+### 1. Proteger apps con login (usuario y contraseña)
+- [ ] generadores.totis.cl → login simple
+- [ ] caldera.totis.cl → login simple
+- [ ] ups.totis.cl → login simple
+- [ ] hvac.totis.cl → login simple
+> ⚠️ Urgente — ahora mismo cualquiera puede usar las apps gratis
 
-### Apps industriales → mover a Cloudflare Pages
-- [ ] `generadores-app` → `generadores.totis.cl`
-- [ ] `hvac-app` → `hvac.totis.cl`
-- [ ] `ups-app` → `ups.totis.cl`
-- [ ] `caldera-app` → `caldera.totis.cl`
-- [ ] Conectar Worker + D1 en cada app
-- [ ] Desactivar GitHub Pages en los 4 repos (ya no se necesita)
+### 2. Sistema de informes técnicos (PDF + Correo)
+- [ ] Diseñar plantilla PDF ordenada cronológicamente
+- [ ] Estructura: Encabezado → Resumen → Hoja de Vida → Historial → Bitácora → Firma
+- [ ] Botón "Descargar PDF" → respaldo en Mac
+- [ ] Botón "Enviar Informe" → Resend con PDF adjunto a jefatura
+- [ ] Correo sale desde dominio propio (calderas@totis.cl, ups@totis.cl...)
+- [ ] Empezar por caldera-app (urgente por evento inundación)
+- [ ] Luego ups-app → hvac-app → generadores-app
 
-### Diseño (opcional, cuando quieras)
-- [ ] Cambiar `fondo.png` por otra imagen si encuentras una mejor
-- [ ] Hacer tarjetas de proyectos más transparentes
-- [ ] Agregar sección "Sobre mí" o descripción profesional
+### 3. Estandarizar workers (CORS Estilo 2)
+- [ ] generadores-worker → migrar a ALLOWED_ORIGINS array
+- [ ] hvac-worker → reescribir CORS hardcodeado
+- [ ] caldera-worker → ya ok ✅
+- [ ] ups-worker → ya ok ✅
+> No urgente — cuando las apps estén estables
 
-### Monetización (futuro)
-- [ ] Sistema de login en Cloudflare Worker
-- [ ] Acceso de pago a las apps industriales
-- [ ] totis.cl como portal de entrada a los servicios
+### 4. DNS Cloudflare — revisar pendientes
+- [ ] CNAME totis.cl apex → verificar
+- [ ] CNAME portal → Railway → ¿se necesita?
+- [ ] jolly-butterfly-ac12 → describir o eliminar
+
+### 5. Mejoras diseño totis-web (opcional)
+- [ ] Cambiar fondo.png si se encuentra imagen mejor
+- [ ] Tarjetas proyectos más transparentes
 
 ---
 
-## 🗂️ Stack completo
+## 🏗️ Arquitectura Stack Toti's
 
-| Componente | Tecnología | Estado |
+| Componente | Tecnología | URL |
 |---|---|---|
-| Frontend página | HTML + CSS + JS | ✅ Activo |
-| Hosting página | GitHub Pages | ✅ Activo |
-| Dominio | NIC.cl → totis.cl | ✅ Activo |
-| DNS + HTTPS | Cloudflare | ✅ Activo |
-| Email visitantes | EmailJS | ✅ Activo |
-| Apps industriales | Cloudflare Pages + Workers + D1 | ⏳ Pendiente |
+| Página presentación | GitHub Pages | www.totis.cl |
+| DNS + HTTPS | Cloudflare | — |
+| Apps industriales | Cloudflare Pages | *.totis.cl |
+| API backend | Cloudflare Workers | *.workers.dev |
+| Base de datos | Cloudflare D1 | — |
+| Email visitantes | EmailJS | Modal redes sociales |
+| Email informes | Resend | Informes a jefatura |
 
 ---
 
-## 🔑 Credenciales EmailJS (guardar seguro)
-- **Public Key:** `pBSsyCYXRuhGYOL4v`
-- **Service ID:** `service_wpd3adq`
-- **Template contacto totis.cl:** `template_82bw0m7`
-- **Template informes UPS/Calderas:** `template_nebk2wa`
-- **Notificaciones a:** `vgarcesb@gmail.com`
+## 📧 División clara de emails
+
+```
+EmailJS → totis-web (redes sociales)
+          Notifica a vgarcesb@gmail.com
+          Service: service_wpd3adq
+          Template: template_82bw0m7
+
+Resend  → Apps industriales (informes PDF)
+          Sale desde dominio propio
+          calderas@totis.cl / ups@totis.cl
+          Para auditoría noviembre
+```
 
 ---
 
-*Última actualización: Mayo 2026*
+## 📱 Estado equipos industriales
+
+| App | Equipo | Estado |
+|---|---|---|
+| caldera-app | 1 Caldera ACS | ⚠️ Fuera de servicio — inundación |
+| ups-app | 1 UPS | 🔄 Próxima renovación |
+| hvac-app | ~20 Aires acondicionados | ✅ Operativos |
+| generadores-app | 1 Generador | ✅ Operativo |
