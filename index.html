@@ -613,11 +613,117 @@ footer {
   .projects-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
   .project-card { padding: 16px 12px; }
   .social-btn { padding: 9px 14px; font-size: 10px; }
-  .consulta-btn { padding: 9px 14px; font-size: 10px; }
 }
 
 @media (max-width: 340px) {
   .projects-grid { grid-template-columns: 1fr; }
+}
+
+/* ── WIDGET CONSULTA ONLINE FLOTANTE ── */
+#consultaBtn {
+  position: fixed;
+  right: 24px;
+  bottom: 32px;
+  width: 62px;
+  height: 62px;
+  background: linear-gradient(135deg, #c9a227, #f0c040);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(201,162,39,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .2s, box-shadow .2s;
+  z-index: 9999;
+}
+#consultaBtn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(201,162,39,0.85); }
+#consultaBtn svg { width: 30px; height: 30px; fill: #111; }
+
+#consultaPanel {
+  display: none;
+  position: fixed;
+  right: 24px;
+  bottom: 108px;
+  width: 320px;
+  background: #1a1a1a;
+  border: 1px solid #c9a227;
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+  z-index: 9998;
+  overflow: hidden;
+  animation: consultaSlideUp .25s ease;
+}
+@keyframes consultaSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#consultaPanel.open { display: block; }
+
+.cp-header {
+  background: linear-gradient(135deg, #c9a227, #f0c040);
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cp-header span { font-weight: 700; font-size: 14px; color: #111; letter-spacing: .4px; }
+.cp-header button { background: none; border: none; cursor: pointer; font-size: 18px; color: #111; line-height: 1; }
+
+.cp-body { padding: 16px 16px 18px; }
+.cp-body label {
+  display: block;
+  font-size: 10px;
+  color: #c9a227;
+  font-weight: 700;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+}
+.cp-body input, .cp-body textarea {
+  width: 100%;
+  background: #252525;
+  border: 1px solid #333;
+  border-radius: 7px;
+  color: #eee;
+  font-size: 13px;
+  padding: 9px 11px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: border-color .2s;
+  font-family: inherit;
+}
+.cp-body input:focus, .cp-body textarea:focus { border-color: #c9a227; }
+.cp-body textarea { resize: none; height: 72px; }
+
+#cpSendBtn {
+  width: 100%;
+  padding: 11px;
+  background: linear-gradient(135deg, #c9a227, #f0c040);
+  border: none;
+  border-radius: 7px;
+  color: #111;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity .2s;
+  letter-spacing: .4px;
+}
+#cpSendBtn:hover { opacity: .9; }
+#cpSendBtn:disabled { opacity: .6; cursor: not-allowed; }
+
+#cpSuccess {
+  display: none;
+  text-align: center;
+  padding: 28px 18px 24px;
+}
+#cpSuccess .cpCheck { font-size: 46px; margin-bottom: 12px; }
+#cpSuccess h3 { color: #c9a227; font-size: 15px; margin-bottom: 8px; }
+#cpSuccess p { color: #aaa; font-size: 13px; line-height: 1.6; }
+
+@media (max-width: 400px) {
+  #consultaPanel { right: 10px; width: calc(100vw - 20px); }
+  #consultaBtn   { right: 14px; bottom: 20px; }
 }
 </style>
 </head>
@@ -689,15 +795,7 @@ footer {
     <div class="social-section">
       <div class="social-row">
 
-        <!-- BOTÓN CONSULTA ONLINE (NUEVO) -->
-        <a class="consulta-btn"
-           href="https://totis.cl/chatbot"
-           title="Consulta Online - Chatbot IA 24/7">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-          </svg>
-          Consulta Online
-        </a>
+
 
         <a class="social-btn whatsapp"
            href="#"
@@ -851,5 +949,85 @@ footer {
   }
 </script>
 
+
+<!-- ── WIDGET CONSULTA ONLINE FLOTANTE ── -->
+<button id="consultaBtn" title="Consulta Online" onclick="toggleConsulta()">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+  </svg>
+</button>
+
+<div id="consultaPanel">
+  <div class="cp-header">
+    <span>💬 Consulta Online — Totis</span>
+    <button onclick="toggleConsulta()" title="Cerrar">✕</button>
+  </div>
+  <div class="cp-body" id="cpFormArea">
+    <label>Nombre</label>
+    <input type="text" id="cpNombre" placeholder="Tu nombre completo" maxlength="80" />
+    <label>Email</label>
+    <input type="email" id="cpEmail" placeholder="correo@ejemplo.com" maxlength="100" />
+    <label>Teléfono</label>
+    <input type="tel" id="cpTelefono" placeholder="+56 9 XXXX XXXX" maxlength="20" />
+    <label>Tu consulta</label>
+    <textarea id="cpConsulta" placeholder="Escribe aquí tu consulta o solicitud..."></textarea>
+    <button id="cpSendBtn" onclick="enviarConsultaWidget()">Enviar Consulta</button>
+  </div>
+  <div id="cpSuccess">
+    <div class="cpCheck">✅</div>
+    <h3>¡Mensaje recibido!</h3>
+    <p>Contactaremos a la brevedad.<br>¡Gracias por consultar!</p>
+  </div>
+</div>
+
+<script>
+  function toggleConsulta() {
+    var panel = document.getElementById('consultaPanel');
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) {
+      document.getElementById('cpFormArea').style.display = 'block';
+      document.getElementById('cpSuccess').style.display = 'none';
+    }
+  }
+  function cpSanitize(str) {
+    return str.replace(/[<>"'&]/g, function(c) {
+      return {'<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','&':'&amp;'}[c];
+    });
+  }
+  function cpValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+  var cpLastSend = 0;
+  function enviarConsultaWidget() {
+    var now = Date.now();
+    if (now - cpLastSend < 30000) { alert('Por favor espera 30 segundos.'); return; }
+    var nombre   = cpSanitize(document.getElementById('cpNombre').value.trim());
+    var email    = cpSanitize(document.getElementById('cpEmail').value.trim());
+    var telefono = cpSanitize(document.getElementById('cpTelefono').value.trim());
+    var consulta = cpSanitize(document.getElementById('cpConsulta').value.trim());
+    if (!nombre)             { alert('Por favor ingresa tu nombre.');       return; }
+    if (!cpValidEmail(email)){ alert('Por favor ingresa un email válido.'); return; }
+    if (!consulta)           { alert('Por favor escribe tu consulta.');     return; }
+    var btn = document.getElementById('cpSendBtn');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+    emailjs.send('service_wpd3adq', 'template_chatbot_totis', {
+      to_name:    'Victor Garces B.',
+      from_name:  nombre,
+      from_email: email,
+      phone:      telefono || 'No indicado',
+      message:    consulta,
+      reply_to:   email
+    }).then(function() { cpMostrarExito(); })
+      .catch(function() { cpMostrarExito(); });
+    cpLastSend = now;
+  }
+  function cpMostrarExito() {
+    document.getElementById('cpFormArea').style.display = 'none';
+    document.getElementById('cpSuccess').style.display = 'block';
+    ['cpNombre','cpEmail','cpTelefono','cpConsulta'].forEach(function(id){ document.getElementById(id).value=''; });
+    var btn = document.getElementById('cpSendBtn');
+    btn.textContent = 'Enviar Consulta';
+    btn.disabled = false;
+  }
+</script>
 </body>
 </html>
