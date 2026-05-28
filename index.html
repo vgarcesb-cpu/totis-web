@@ -296,6 +296,41 @@ header {
   justify-content: center;
 }
 
+/* ── BOTÓN CONSULTA ONLINE (NUEVO) ── */
+.consulta-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1px solid var(--gold);
+  border-radius: 3px;
+  padding: 10px 18px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.consulta-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.consulta-btn:hover {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  border-color: var(--gold-light);
+  box-shadow: 0 0 20px rgba(212,175,55,0.4);
+  transform: translateY(-2px);
+}
+
+/* ── BOTONES SOCIALES EXISTENTES ── */
 .social-btn {
   display: flex;
   align-items: center;
@@ -578,6 +613,7 @@ footer {
   .projects-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
   .project-card { padding: 16px 12px; }
   .social-btn { padding: 9px 14px; font-size: 10px; }
+  .consulta-btn { padding: 9px 14px; font-size: 10px; }
 }
 
 @media (max-width: 340px) {
@@ -652,6 +688,16 @@ footer {
     <div class="section-label">— Contacto —</div>
     <div class="social-section">
       <div class="social-row">
+
+        <!-- BOTÓN CONSULTA ONLINE (NUEVO) -->
+        <a class="consulta-btn"
+           href="https://totis.cl/chatbot"
+           title="Consulta Online - Chatbot IA 24/7">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+          </svg>
+          Consulta Online
+        </a>
 
         <a class="social-btn whatsapp"
            href="#"
