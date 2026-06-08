@@ -991,14 +991,25 @@ footer {
     });
   }
 
-  // ── CONTADOR DE VISITAS ──
-  (function() {
-    var key = 'totis_visits';
-    var count = parseInt(localStorage.getItem(key) || '0', 10) + 1;
-    localStorage.setItem(key, count);
-    var el = document.getElementById('visitCount');
-    if (el) el.textContent = count.toLocaleString('es-CL');
-  })();
+  // ── CONTADOR DE VISITAS REAL (Cloudflare Worker + D1) ──
+(function() {
+  var WORKER_URL = 'https://totis-worker.vgarcesb.workers.dev';
+  var el = document.getElementById('visitCount');
+
+  fetch(WORKER_URL + '/api/visita', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (el && data.total !== undefined) {
+      el.textContent = data.total.toLocaleString('es-CL');
+    }
+  })
+  .catch(function() {
+    if (el) el.textContent = '—';
+  });
+})();
 </script>
 
 
