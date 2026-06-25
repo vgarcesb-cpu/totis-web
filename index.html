@@ -293,11 +293,11 @@ footer { border-top: 1px solid rgba(212,175,55,0.08); padding: 20px 0 32px; text
       <div class="modal-sub">Déjame tus datos para continuar</div>
       <div class="modal-network" id="modalNetwork" aria-live="polite">WhatsApp 💬</div>
       <label for="inputNombre">Nombre completo</label>
-      <input type="text" id="inputNombre" placeholder="Tu nombre" required autocomplete="name">
+      <input type="text" id="inputNombre" placeholder="Tu nombre" required autocomplete="name" maxlength="80" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
       <label for="inputCorreo">Correo electrónico</label>
-      <input type="email" id="inputCorreo" placeholder="tu@correo.com" required autocomplete="email">
+      <input type="email" id="inputCorreo" placeholder="tu@correo.com" required autocomplete="email" maxlength="100">
       <label for="inputTelefono">Teléfono / WhatsApp</label>
-      <input type="tel" id="inputTelefono" placeholder="+56 9 XXXX XXXX" autocomplete="tel">
+      <input type="tel" id="inputTelefono" placeholder="+56 9 XXXX XXXX" autocomplete="tel" maxlength="20">
       <button class="modal-btn" id="btnEnviar" onclick="enviarYRedirigir()">
         Continuar →
       </button>
