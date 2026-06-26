@@ -407,7 +407,7 @@ footer { border-top: 1px solid rgba(212,175,55,0.08); padding: 20px 0 32px; text
 
   // Contador de visitas
   (function() {
-    var WORKER_URL = 'https://totis-worker.vgarcesb.workers.dev';
+   var WORKER_URL = 'https://totis-api.totis.cl';
     var el = document.getElementById('visitCount');
     fetch(WORKER_URL + '/api/visita', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
     .then(function(r) { return r.json(); })
