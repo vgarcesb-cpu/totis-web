@@ -414,12 +414,22 @@ footer { border-top: 1px solid rgba(212,175,55,0.08); padding: 20px 0 32px; text
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tipo: 'red-social', nombre: nombre, correo: correo, telefono: telefono, red: red, turnstileToken: tsTokenModal })
-    }).then(function() {
+    }).then(function(response) {
+      if (!response.ok) {
+        return response.json().then(function(data) { throw new Error(data.error || 'Error al enviar'); });
+      }
       lastSendModal = now;
       document.getElementById('modalForm').style.display = 'none';
       document.getElementById('modalSuccess').style.display = 'block';
       setTimeout(function() { cerrarModal(); window.open(urlDestino, '_blank'); }, 2000);
-    }).catch(function() { cerrarModal(); window.open(urlDestino, '_blank'); });
+    }).catch(function(err) {
+      console.error('Error enviarYRedirigir:', err.message);
+      alert('No se pudo enviar tus datos (' + err.message + '), pero te llevamos al enlace de todas formas.');
+      btn.disabled = false;
+      btn.textContent = 'Continuar →';
+      cerrarModal();
+      window.open(urlDestino, '_blank');
+    });
   }
 
   // Contador de visitas
@@ -472,8 +482,18 @@ footer { border-top: 1px solid rgba(212,175,55,0.08); padding: 20px 0 32px; text
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tipo: 'consulta', nombre: nombre, correo: email, telefono: telefono, mensaje: consulta, turnstileToken: tsTokenWidget })
-    }).then(function() { cpMostrarExito(); }).catch(function() { cpMostrarExito(); });
-    cpLastSend = now;
+    }).then(function(response) {
+      if (!response.ok) {
+        return response.json().then(function(data) { throw new Error(data.error || 'Error al enviar'); });
+      }
+      cpLastSend = now;
+      cpMostrarExito();
+    }).catch(function(err) {
+      console.error('Error enviarConsultaWidget:', err.message);
+      alert('No se pudo enviar tu consulta: ' + err.message + '. Intenta nuevamente.');
+      btn.textContent = 'Enviar Consulta';
+      btn.disabled = false;
+    });
   }
 
   function cpMostrarExito() {
