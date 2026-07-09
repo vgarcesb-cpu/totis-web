@@ -79,3 +79,14 @@
 - catch sin exponer err.message. DELETE en cascada de equipos (bitacoras+
   tareas) ya estaba correcto, sin cambios.
 - Deploy: worker.js vía Dashboard, _headers vía GitHub. Validado Mac + S25 ✅.
+
+- ## 09-jul-2026 — caldera: whitelist depurada (github.io + pages.dev + localhost) + _headers
+
+- `caldera-worker` (caldera-api.totis.cl): CORS ya era v2.3 real y correcto
+  (whitelist exacta, Vary, 403, Resend en Secret) — sin hallazgo crítico.
+- Ajustado a v2.5: retirado vgarcesb-cpu.github.io, localhost:8080 y
+  caldera-app.pages.dev (patrón unificado — *.pages.dev no está cubierto
+  por el WAF de zona totis.cl, mismo riesgo que workers.dev).
+- catch global sin err.message; error de Resend ya no expone mensaje interno.
+- `_headers` no existía — creado con CSP + CSP Insights (#7).
+- Deploy: worker.js en Dashboard, _headers en GitHub. Validado Mac + S25 ✅.
