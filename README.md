@@ -1,60 +1,66 @@
 # TOTI'S® — Plan de Trabajo
 **Víctor Manuel Garcés Borje · Systems Developer · www.totis.cl**
-*Última actualización: 13 Mayo 2026*
+*Última actualización: 08 Julio 2026 (post-saneamiento #9)*
 
 ---
 
 ## ✅ Completado
 
 ### Página web — totis-web
-- [x] index.html limpio — código propio, sin Manus AI
-- [x] Diseño oscuro con imagen de fondo fondo.png (tuya, en el repo)
+- [x] index.html limpio — código propio
+- [x] Diseño oscuro con imagen de fondo fondo.png (propia, en el repo)
 - [x] Logo TOTI'S® con animación gold
 - [x] Pills SYSTEMS DEVELOPER visibles con backdrop-filter
-- [x] 4 tarjetas enlazadas a dominios propios *.totis.cl
+- [x] Tarjetas enlazadas a dominios propios *.totis.cl
 - [x] Botones WhatsApp / Facebook / Instagram con colores hover
-- [x] Modal "Conectemos" — captura visitantes antes de acceder a redes
-- [x] EmailJS conectado → notificación a vgarcesb@gmail.com
+- [x] Modal "Conectemos" y formulario "Consulta" — ambos vía `totis-mail-worker` (Resend + Turnstile), EmailJS **ya no está en uso**
 - [x] Footer © 2026
 - [x] WhatsApp real configurado (+56 9 3407 2459)
+- [x] Formulario de contacto con Turnstile anti-bot (totis-mail-worker v1.1)
 
 ### Dominio y hosting
 - [x] www.totis.cl funcionando con HTTPS ✅
 - [x] DNS gestionado por Cloudflare
 - [x] Proxy Cloudflare activo
 
-### Apps industriales — dominios propios
-- [x] generadores.totis.cl → Active ✅
-- [x] caldera.totis.cl → Active ✅
-- [x] ups.totis.cl → Active ✅
-- [x] hvac.totis.cl → Active ✅
+### Ecosistema de portales — 9 Workers (arquitectura Pages + Worker + D1)
 
-### Workers — CORS actualizado
-- [x] generadores-worker → acepta generadores.totis.cl
-- [x] caldera-worker → acepta caldera.totis.cl
-- [x] ups-worker → acepta ups.totis.cl
-- [x] hvac-worker → acepta hvac.totis.cl
+| App | Frontend | Worker → API | Versión | Nota |
+|---|---|---|---|---|
+| Adquisiciones | adq.totis.cl | portal-adq-worker → adq-api | v2.3 | Zero Trust PIN |
+| Solicitud Supervisor | solicitud-supervisor.totis.cl | → supervisor-api | v1.1 | PWA híbrida offline-first |
+| NLS-2003-004 | nls.totis.cl | nls-worker → nls-api | v1.2 | Transferencia de calor |
+| Caldera | caldera.totis.cl | caldera-worker → caldera-api | v2.3 | Email Resend |
+| UPS | ups.totis.cl | ups-worker → ups-api | v2.3 | Email Resend |
+| AACC | aacc.totis.cl | portal-aacc-fach-api → aacc-api | — | CORS modelo duro |
+| HVAC | hvac.totis.cl | worker hvac → hvac-api | v2.3 | Email Resend; CORS v2.3 homologado (08-jul-2026) |
+| Generadores | generadores.totis.cl | generadores-worker | — | Modelo original de whitelist |
+| Mail (sitio) | totis.cl | totis-mail-worker → mail-api | v1.1 | Turnstile anti-bot |
 
-### Seguridad — Cloudflare Zero Trust
-- [x] generadores.totis.cl → login PIN ✅
-- [x] caldera.totis.cl → login PIN ✅
-- [x] ups.totis.cl → login PIN ✅
-- [x] hvac.totis.cl → login PIN ✅
-- [x] Team domain: totis.cloudflareaccess.com
-- [x] Autenticación: One Time PIN a vgarcesb@gmail.com
-- [x] 4 repos apps en privado ✅
-- [x] EmailJS con MFA activado ✅
+### Seguridad — Jornada de Saneo (07-jul-2026) + Saneamiento #9 (08-jul-2026)
+- [x] **CORS v2.3** en 6/9 Workers: whitelist exacta (`===`, nunca `.includes()`) + ACAO dinámico + `Vary: Origin` + rechazo 403 (adq, supervisor, nls, caldera, ups, **hvac**)
+- [x] **Keys Resend dedicadas y rotadas**, siempre en Secret `env.RESEND_API_KEY`: caldera-worker-2026, ups-app-prod, hvac-worker-2026, totis-mail-worker-prod-v2
+- [x] **WAF de zona ampliado**: regla única cubre `/api/*` + rutas raíz de todas las APIs, 20 req/10s por IP, Block 10s — validada con Error 1015 real
+- [x] **workers.dev OFF** en los 9 Workers (Production + Preview) — único acceso vía dominios custom `*-api.totis.cl`
+- [x] Bot Fight Mode, AI Labyrinth, Hotlink Protection, WAF Chile-only → activados
+- [x] Auditoría XSS ecosistema (jun-2026): cero `innerHTML` con dato de usuario, `textContent`/`escH()` en todo el stack
+- [x] Zero Trust PIN vigente en Adquisiciones (team domain totis.cloudflareaccess.com, OTP a vgarcesb@gmail.com)
+- [x] `catch` sin exponer `err.message` al cliente en hvac (08-jul-2026) — pendiente en 8/9 restantes
+
+### Validaciones S25 (juez definitivo — dominios custom)
+✅ adq-api, supervisor-api, nls-api, caldera-api, ups-api, **hvac-api (08-jul-2026)** (6/9)
+⬜ aacc, generadores, mail
 
 ---
 
 ## ⏳ Pendiente — Por orden de prioridad
 
-### 1. Seguridad adicional en Cloudflare
-- [x] Bot Fight Mode → activado ✅
-- [x] AI Labyrinth → activado ✅
-- [x] Hotlink Protection → activado ✅
-- [x] WAF Chile → solo Chile entra ✅
-- [ ] Archivo _headers en cada repo (XSS, Clickjacking, MIME)
+### 1. Pendientes del mapa (todos riesgo bajo)
+- [ ] **#7** CSP Insights: agregar `https://static.cloudflareinsights.com` a `script-src` en `_headers` (detectado y corregido en hvac, auditar el resto)
+- [x] ~~**#9** Homologar CORS de hvac al patrón v2.3~~ → ✅ Resuelto 08-jul-2026, validado Mac + S25
+- [ ] Validaciones S25 restantes: aacc, generadores, mail
+- [ ] Retirar `localhost` de whitelists donde no se use
+- [ ] Endurecer en conjunto: `catch` devolviendo `err.message` al cliente (ya aplicado en hvac, falta en 8/9 restantes)
 
 ### 2. Sistema de informes técnicos (PDF + Correo Resend)
 - [ ] Diseñar plantilla PDF ordenada cronológicamente
@@ -62,26 +68,18 @@
 - [ ] Botón "Descargar PDF" → respaldo en Mac
 - [ ] Botón "Enviar Informe" → Resend con PDF adjunto a jefatura
 - [ ] Correo sale desde dominio propio (calderas@totis.cl, ups@totis.cl...)
-- [ ] Empezar por caldera-app (urgente — equipo fuera de servicio por inundación)
-- [ ] Luego ups-app → hvac-app → generadores-app
 
-### 3. Estandarizar workers (CORS Estilo 2)
-- [ ] generadores-worker → migrar a ALLOWED_ORIGINS array
-- [ ] hvac-worker → reescribir CORS hardcodeado
-- [ ] caldera-worker → ya ok ✅
-- [ ] ups-worker → ya ok ✅
-
-### 4. Cron Triggers — mantenimiento automático
+### 3. Cron Triggers — mantenimiento automático
 - [ ] Recordatorio mantención próxima → correo automático
 - [ ] Resumen mensual automático por equipo
 - [ ] Alerta si equipo lleva X días sin registro
 
-### 5. DNS Cloudflare — revisar pendientes
+### 4. DNS Cloudflare — revisar pendientes
 - [ ] CNAME totis.cl apex → verificar apunta correcto
 - [ ] CNAME portal → Railway → ¿se necesita?
 - [ ] jolly-butterfly-ac12 worker → describir o eliminar
 
-### 6. Mejoras diseño totis-web (opcional)
+### 5. Mejoras diseño totis-web (opcional)
 - [ ] Cambiar fondo.png si se encuentra imagen mejor
 - [ ] Tarjetas proyectos más transparentes
 
@@ -95,26 +93,29 @@
 | DNS + HTTPS + Seguridad | Cloudflare | — |
 | Login apps | Cloudflare Zero Trust | totis.cloudflareaccess.com |
 | Apps industriales | Cloudflare Pages | *.totis.cl |
-| API backend | Cloudflare Workers | *.workers.dev |
+| API backend | Cloudflare Workers | *-api.totis.cl (workers.dev OFF) |
 | Base de datos | Cloudflare D1 (SQLite) | — |
-| Email visitantes | EmailJS | Modal redes sociales |
-| Email informes | Resend | Informes técnicos a jefatura |
+| Email sitio (Conectemos/Consulta) | Resend vía `totis-mail-worker` + Turnstile | totis.cl |
+| Email informes/alertas | Resend | Keys dedicadas por Worker (Secret) |
 
 ---
 
 ## 📧 División clara de emails
 
 ```
-EmailJS → totis-web (redes sociales)
-          Notifica a vgarcesb@gmail.com
-          Service: service_wpd3adq
-          Template contacto: template_82bw0m7
+Resend (vía totis-mail-worker) → totis.cl (Conectemos / Consulta)
+          Turnstile anti-bot server-side
+          Secret RESEND_API_KEY: totis-mail-worker-prod-v2
 
 Resend  → Apps industriales (informes PDF)
           Sale desde dominio propio
           calderas@totis.cl / ups@totis.cl
-          Para auditoría noviembre
+          Key dedicada por Worker, siempre en Secret
 ```
+
+> EmailJS quedó reemplazado por `totis-mail-worker` (jun-2026). La cuenta
+> EmailJS sigue abierta pero sin uso — pendiente de eliminar (baja prioridad,
+> ver skill `seguridad-web-totis`).
 
 ---
 
@@ -129,8 +130,57 @@ Resend  → Apps industriales (informes PDF)
 
 ---
 
-## 🔑 Credenciales EmailJS
-- **Public Key:** pBSsyCYXRuhGYOL4v
-- **Service ID:** service_wpd3adq
-- **Template contacto totis.cl:** template_82bw0m7
-- **Template informes:** template_nebk2wa
+## 🔑 Credenciales — estado
+
+- **EmailJS** (legacy, sin uso desde jun-2026): Public Key/Service ID/Template ID
+  eran client-side por diseño (confirmado en docs oficiales de EmailJS — no son
+  secretos, la mitigación de abuso es whitelist de dominio + captcha en su
+  dashboard, no ocultarlas). No se listan aquí por ya no ser relevantes;
+  limpiar del HTML si aún quedan referencias muertas y cerrar la cuenta.
+- **Resend** (server-side, activo): keys dedicadas por Worker, **siempre**
+  en Secret (`env.RESEND_API_KEY`), nunca en código/chat/pantalla.
+  Regla permanente: key vista fuera de un Secret = comprometida → rotar
+  (nueva → Secret → deploy → revocar), nunca mover.
+
+---
+
+## 🩺 Registro de Workers — Health Check
+
+| Worker (Cloudflare) | App | Health check |
+|---|---|---|
+| `portal-adq-worker` | Adquisiciones | `https://adq-api.totis.cl/api/health` |
+| `solicitud-supervisor-worker` | Solicitud Supervisor | `https://supervisor-api.totis.cl/api/health` |
+| `nls-worker` | NLS-2003-004 | `https://nls-api.totis.cl/api/health` |
+| `caldera-worker` | Caldera | `https://caldera-api.totis.cl/api/health` |
+| `ups-worker` | UPS | `https://ups-api.totis.cl/api/health` |
+| `portal-aacc-fach-api` | AACC | pendiente validación S25 |
+| worker hvac | HVAC | `https://hvac-api.totis.cl/api/dashboard` ✅ validado 08-jul-2026 |
+| `generadores-worker` | Generadores | pendiente validación S25 |
+| `totis-mail-worker` | Mail (sitio totis.cl) | pendiente validación S25 |
+
+> Verificado = leído en `MEMORIA-ECOSISTEMA.md`/`BITACORA.md`. Las URLs de
+> aacc/hvac/generadores/mail son las esperadas por convención `*-api.totis.cl`,
+> no confirmadas contra Dashboard — confirmar antes de usarlas como fuente
+> de verdad (Principio 8, `auditor-totis`).
+
+---
+
+## 📄 Repos del ecosistema
+
+| Repo | Visibilidad | Contiene |
+|---|---|---|
+| `totis-web` | Público | Sitio totis.cl + este README |
+| `Solicitud-Supervisor` | Público | PWA híbrida offline-first |
+| `tarjeta-profesional` | Público | Tarjeta de presentación |
+| adq, nls, caldera, ups, aacc, hvac, generadores | Privados | Portales D1 (sin IDs/detalles sensibles en docs, per regla del ecosistema) |
+
+---
+
+## 📌 Próxima sesión de saneamiento (protocolo formal — ver skill `auditor-totis`)
+
+1. ~~hvac `worker.js` → homologar CORS a v2.3 (#9)~~ ✅ Cerrado 08-jul-2026
+2. `_headers` de los 8 repos restantes → agregar CSP Insights (#7)
+3. Retirar `localhost` de whitelists + estandarizar `catch` sin `err.message` en los 8 Workers restantes (patrón ya validado en hvac)
+4. Validaciones S25 restantes: aacc, generadores, mail
+5. Cerrar cada ítem solo con evidencia (`/health` + prueba real) y mover a §7 de `MEMORIA-ECOSISTEMA.md` + `BITACORA.md`
+
