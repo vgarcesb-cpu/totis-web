@@ -66,3 +66,16 @@
 - `_headers` no existía — creado con CSP + CSP Insights (#7) + connect-src
   a supervisor-api.totis.cl.
 - Deploy: worker.js en Dashboard, _headers en GitHub. Validado Mac + S25 ✅.
+
+- ## 09-jul-2026 — CORS real nls corregido + _headers creado
+
+- `nls-worker` (nls-api.totis.cl): documentación decía v1.1 funcional,
+  código real tenía ACAO:'*' + whitelist por `.includes()`/Referer +
+  workers.dev (mismo patrón vulnerable que adq). Corregido a whitelist
+  exacta (solo `nls.totis.cl`, GitHub Pages confirmado sin uso y retirado),
+  Vary: Origin, rechazo 403.
+- `_headers` no existía — creado con CSP + CSP Insights (#7) + connect-src
+  a nls-api.totis.cl.
+- catch sin exponer err.message. DELETE en cascada de equipos (bitacoras+
+  tareas) ya estaba correcto, sin cambios.
+- Deploy: worker.js vía Dashboard, _headers vía GitHub. Validado Mac + S25 ✅.
