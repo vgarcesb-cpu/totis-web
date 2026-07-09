@@ -90,3 +90,14 @@
 - catch global sin err.message; error de Resend ya no expone mensaje interno.
 - `_headers` no existía — creado con CSP + CSP Insights (#7).
 - Deploy: worker.js en Dashboard, _headers en GitHub. Validado Mac + S25 ✅.
+
+- ## 09-jul-2026 — totis-mail-worker: whitelist depurada + err.message
+
+- `totis-mail-worker` (mail-api.totis.cl): CORS ya era correcto (whitelist
+  exacta, Vary, 403, Turnstile + Resend en Secrets) — sin hallazgo crítico.
+- Ajustado a v1.2: retirado vgarcesb-cpu.github.io (patrón unificado, sin uso).
+- catch y error de Resend ya no exponen mensajes internos al cliente.
+- `_headers` ya tenía CSP Insights (#7) incluido — sin cambios ahí.
+- Deploy: worker.js en Dashboard (no requirió tocar _headers). Validado
+  Mac + S25 ✅ (los "rojos" en consola eran de Turnstile/Cloudflare,
+  no relacionados al fix — formulario y correo funcionan bien).
