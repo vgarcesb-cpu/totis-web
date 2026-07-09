@@ -157,3 +157,15 @@
   envío de correo).
 
 ### CIERRE DEL CICLO DE SANEAMIENTO — 9/9 Workers saneados (09-jul-2026)
+
+## 09-jul-2026 (cont.) — hvac: retirado pages.dev + recuperado /api/send-email
+
+- Confirmado sin uso `hvac-app.pages.dev` — retirado de la whitelist,
+  igual que en caldera/generadores/ups.
+- Hallazgo: al hacer el fix #9 (08-jul), el worker.js recibido no incluía
+  el endpoint /api/send-email que sí usa el frontend (hvac-worker-2026 ya
+  existía como key Resend) — se perdió al reemplazar el archivo completo.
+  Corregido: endpoint restaurado, mismo patrón que el resto (Resend +
+  guard de RESEND_API_KEY + catch sin err.message).
+- Deploy: worker.js en Dashboard. Validado Mac + S25 ✅, correo enviado
+  y recepcionado con éxito.
