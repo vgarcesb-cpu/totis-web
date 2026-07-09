@@ -57,3 +57,12 @@
 - Mismo pase: catch ya no expone `err.message` al cliente (solo
   `console.error` server-side).
 - Deploy vía Cloudflare Dashboard (Quick Edit). Validado Mac + S25 ✅.
+
+- ## 08-jul-2026 (cont.) — Solicitud-Supervisor: whitelist ajustada + err.message + _headers
+
+- `solicitud-supervisor-worker`: CORS ya estaba bien implementado (whitelist
+  exacta, Vary, 403) — único ajuste: retirado `vgarcesb-cpu.github.io`
+  (confirmado sin uso). catch ya no expone `err.message`.
+- `_headers` no existía — creado con CSP + CSP Insights (#7) + connect-src
+  a supervisor-api.totis.cl.
+- Deploy: worker.js en Dashboard, _headers en GitHub. Validado Mac + S25 ✅.
