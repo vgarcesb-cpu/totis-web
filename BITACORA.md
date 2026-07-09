@@ -101,3 +101,20 @@
 - Deploy: worker.js en Dashboard (no requirió tocar _headers). Validado
   Mac + S25 ✅ (los "rojos" en consola eran de Turnstile/Cloudflare,
   no relacionados al fix — formulario y correo funcionan bien).
+
+  ## 09-jul-2026 — generadores: inyección SQL corregida (crítico) + CORS + key Resend
+
+- `generadores-worker` (generadores-api.totis.cl): hallazgo crítico —
+  inyección SQL en /api/bitacora y /api/mantenciones (generador_id
+  concatenado directo al SQL, no parametrizado). Corregido con .bind().
+- CORS "Estilo 2" (fallback a ALLOWED_ORIGINS[0], sin rechazo) corregido
+  a whitelist real v1.1: solo generadores.totis.cl, retirado pages.dev
+  y localhost:8080/:3000 (confirmado sin uso), Vary: Origin, rechazo 403.
+- catch y error de Resend sin exponer mensajes internos. Guard agregado
+  para RESEND_API_KEY faltante.
+- `_headers` no existía — creado con CSP + CSP Insights (#7).
+- Hallazgo operativo: generadores no tenía key Resend dedicada (causa
+  de fallos al enviar informes) — creada key `generadores-worker-2026`
+  en Resend y configurada como Secret. Correo enviado exitosamente.
+- Deploy: worker.js en Dashboard, _headers en GitHub. Validado Mac + S25 ✅
+  (primera validación S25 de este repo, incluyendo envío de correo).
