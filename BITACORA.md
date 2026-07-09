@@ -118,3 +118,18 @@
   en Resend y configurada como Secret. Correo enviado exitosamente.
 - Deploy: worker.js en Dashboard, _headers en GitHub. Validado Mac + S25 ✅
   (primera validación S25 de este repo, incluyendo envío de correo).
+
+  ## 09-jul-2026 — ups: whitelist depurada + key Resend rotada + _headers
+
+- `ups-worker` (ups-api.totis.cl): CORS ya era v2.3 real y correcto
+  (whitelist exacta, Vary, 403, guard NaN, DELETE atómico) — sin
+  hallazgo crítico. Ajustado a v2.4: retirado vgarcesb-cpu.github.io,
+  ups-app.pages.dev y localhost:8080/:3000 (confirmado sin uso).
+- catch y error de Resend sin exponer mensajes internos.
+- `_headers` no existía — creado con CSP + CSP Insights (#7).
+- Rotación completa de key Resend: existían 2 keys ambiguas
+  (ups-worker-2026, ups-app-prod) — creada ups-worker-2026-v2,
+  configurada como Secret, verificado envío de correo, y solo
+  entonces borradas ambas keys viejas en Resend.
+- Deploy: worker.js en Dashboard, _headers en GitHub. Validado
+  Mac + S25 ✅ (incluye envío de correo con la key nueva).
