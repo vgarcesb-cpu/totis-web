@@ -133,3 +133,27 @@
   entonces borradas ambas keys viejas en Resend.
 - Deploy: worker.js en Dashboard, _headers en GitHub. Validado
   Mac + S25 ✅ (incluye envío de correo con la key nueva).
+
+## 09-jul-2026 (cont.) — aacc: CORS duro corregido + migración EmailJS→Resend + _headers
+
+- `portal-aacc-fach-api`: modelo "CORS duro" (rechaza Origin vacío) confirmado
+  real, pero el mecanismo era vulnerable (.includes()/Referer). Corregido a
+  whitelist exacta + ACAO dinámico + Vary: Origin, manteniendo el rechazo
+  de Origin vacío como comportamiento intencional.
+- Agregado try/catch global (antes ausente — errores no capturados devolvían
+  la página de error genérica de Cloudflare sin headers CORS).
+- crearEquipo() ya no expone e.message.
+- Comentario incorrecto sobre Cloudflare Access removido (confirmado: aacc
+  NO tiene Zero Trust).
+- `_headers` no existía — creado con CSP + CSP Insights (#7).
+- Migración completa EmailJS → Resend: agregado endpoint /api/send-email
+  al worker.js, creada key dedicada aacc-worker-2026 en Resend y
+  configurada como Secret, index.html actualizado (quitado script EmailJS,
+  pestaña de configuración EmailJS, función enviarReporteEmail() reescrita
+  para llamar al Worker). CSP ajustado (cdnjs.cloudflare.com en connect-src,
+  necesario para jsPDF).
+- Deploy: worker.js + index.html en Dashboard/GitHub, _headers en GitHub.
+  Validado Mac + S25 ✅ (primera validación S25 de este repo, incluyendo
+  envío de correo).
+
+### CIERRE DEL CICLO DE SANEAMIENTO — 9/9 Workers saneados (09-jul-2026)
