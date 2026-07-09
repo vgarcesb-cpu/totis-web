@@ -48,3 +48,12 @@
 - **#7** CSP Insights (`static.cloudflareinsights.com` en `script-src`) — riesgo bajo.
 - **#9** Homologar CORS de hvac al patrón v2.3 (hoy en "Estilo 2" funcional).
 - Validaciones S25 de dominios custom: aacc, hvac, generadores, mail (5/9 ya ✅).
+
+- ## 08-jul-2026 — CORS hvac homologado a v2.3 (#9)
+
+- `worker hvac` (hvac-api.totis.cl): migrado de ACAO fijo a
+  `hvac-app.pages.dev` → whitelist dinámica (`hvac.totis.cl` +
+  `hvac-app.pages.dev`) + `Vary: Origin` + rechazo 403.
+- Mismo pase: catch ya no expone `err.message` al cliente (solo
+  `console.error` server-side).
+- Deploy vía Cloudflare Dashboard (Quick Edit). Validado Mac + S25 ✅.
