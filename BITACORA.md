@@ -191,3 +191,12 @@
 - Sin inyección SQL (ya usaba .bind() correctamente).
 - _headers ya existía (compartido con totis-mail-worker), sin cambios.
 - Deploy: worker.js en Dashboard. Validado Mac + S25 ✅.
+
+- ## 10-jul-2026 — Cuenta EmailJS eliminada
+
+- Verificado con GitHub code search (user:vgarcesb-cpu) que no queda
+  ningún uso activo de EmailJS en el código de ningún repo — 0 archivos
+  coincidentes, solo 9 commits históricos del retiro ya hecho en aacc
+  y totis-web.
+- Cuenta EmailJS eliminada por Toti's.
+- EmailJS queda completamente fuera del ecosistema totis.cl.
