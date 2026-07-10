@@ -182,3 +182,12 @@
 - Hallazgo nuevo: totis-api.totis.cl / Worker totis-worker (contador de
   visitas) nunca pasó por el ciclo de saneamiento CORS — agregado a
   pendientes-totis para auditar en sesión futura.
+
+  ## 10-jul-2026 — totis-worker (contador de visitas) saneado
+
+- CORS "Estilo 2" (fallback sin rechazo) corregido a whitelist real
+  (totis.cl + www.totis.cl), Vary: Origin, rechazo 403.
+- catch sin exponer err.message en ambas rutas (/api/visita, /api/visitas).
+- Sin inyección SQL (ya usaba .bind() correctamente).
+- _headers ya existía (compartido con totis-mail-worker), sin cambios.
+- Deploy: worker.js en Dashboard. Validado Mac + S25 ✅.
