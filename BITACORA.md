@@ -169,3 +169,16 @@
   guard de RESEND_API_KEY + catch sin err.message).
 - Deploy: worker.js en Dashboard. Validado Mac + S25 ✅, correo enviado
   y recepcionado con éxito.
+
+  ## 10-jul-2026 — DNS revisado (pendiente #6 cerrado)
+
+- Revisados los 22 registros DNS de la zona totis.cl contra el inventario
+  real de 9 Workers + repos conocidos — todos coinciden, ningún CNAME
+  huérfano real.
+- Encontrados 2 registros de Amazon SES sin relación con el ecosistema
+  actual (send.totis.cl MX + TXT SPF amazonses.com) — sin evidencia de
+  cuenta AWS activa, confirmado por Toti's sin uso — eliminados.
+- resend._domainkey (TXT) confirmado como necesario para Resend, sin tocar.
+- Hallazgo nuevo: totis-api.totis.cl / Worker totis-worker (contador de
+  visitas) nunca pasó por el ciclo de saneamiento CORS — agregado a
+  pendientes-totis para auditar en sesión futura.
