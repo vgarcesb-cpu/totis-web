@@ -200,3 +200,24 @@
   y totis-web.
 - Cuenta EmailJS eliminada por Toti's.
 - EmailJS queda completamente fuera del ecosistema totis.cl.
+
+- ## 10-jul-2026 — Sistema de informes técnicos unificado (prueba: hvac + caldera)
+
+- Creado módulo compartido shared/informes.js en totis-web
+  (https://totis.cl/shared/informes.js), genera el HTML del correo de
+  informe técnico de forma unificada (KPIs + secciones con tablas),
+  parametrizable por app (colores, ícono, secciones).
+- hvac: enviarInformeCorreo() migrada al módulo compartido. _headers
+  actualizado (https://totis.cl en script-src). Validado Mac, correo
+  recibido con diseño correcto.
+- caldera: enviarInformeCorreo() migrada al módulo compartido (4 secciones:
+  Ficha Técnica, Componentes, Bitácora, Empresa Mantenedora). _headers
+  actualizado. Validado Mac, correo recibido con diseño correcto.
+- El generador de "Informe Editable" (PDF con firmas) NO se tocó en
+  ninguna de las 2 apps — sigue siendo independiente por diseño, tal
+  como se acordó (alcance: solo HTML de correo).
+- Hallazgo nuevo (no relacionado): tablas de Ficha Técnica/Quemador del
+  Informe Editable de caldera aparecen vacías — sin confirmar si es
+  pre-existente o nuevo, agregado a pendientes-totis para revisar aparte.
+- Pendiente: replicar el patrón en ups, generadores, aacc, mail (mismo
+  proceso: agregar https://totis.cl a _headers + migrar función de envío).
