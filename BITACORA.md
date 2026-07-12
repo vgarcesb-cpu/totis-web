@@ -221,3 +221,12 @@
   pre-existente o nuevo, agregado a pendientes-totis para revisar aparte.
 - Pendiente: replicar el patrón en ups, generadores, aacc, mail (mismo
   proceso: agregar https://totis.cl a _headers + migrar función de envío).
+
+  ## 12-jul-2026 — ups: informe unificado con TotisInformes
+
+- enviarInformeCorreo() migrada al módulo compartido shared/informes.js.
+  Secciones: Listado UPS activos, Equipos retirados (condicional), Empresa
+  Mantenedora. _headers actualizado (https://totis.cl en script-src).
+  descargarInformeEditable() sin tocar.
+- Validado Mac: consola sin errores CSP, correo recibido con diseño
+  unificado correcto.
