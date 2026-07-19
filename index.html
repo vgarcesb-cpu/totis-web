@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TOTI'S® — Víctor Garcés · Systems Developer</title>
 <meta name="description" content="Víctor Manuel Garcés Borje — Systems Developer, Full Stack, Troubleshooting Assistance. Especialista en sistemas industriales para Chile.">
 <meta name="keywords" content="systems developer Chile, full stack developer, troubleshooting, Víctor Garcés, desarrollo web industrial, PWA Chile, Victor Garces Borje">
@@ -421,14 +421,14 @@ footer { border-top: 1px solid rgba(212,175,55,0.08); padding: 20px 0 32px; text
       lastSendModal = now;
       document.getElementById('modalForm').style.display = 'none';
       document.getElementById('modalSuccess').style.display = 'block';
-      setTimeout(function() { cerrarModal(); window.open(urlDestino, '_blank'); }, 2000);
+      setTimeout(function() { cerrarModal(); window.open(urlDestino, '_blank', 'noopener'); }, 2000);
     }).catch(function(err) {
       console.error('Error enviarYRedirigir:', err.message);
       alert('No se pudo enviar tus datos (' + err.message + '), pero te llevamos al enlace de todas formas.');
       btn.disabled = false;
       btn.textContent = 'Continuar →';
       cerrarModal();
-      window.open(urlDestino, '_blank');
+      window.open(urlDestino, '_blank', 'noopener');
     });
   }
 
