@@ -37,4 +37,24 @@ a sus apps industriales (generadores, HVAC, UPS, calderas).
 - 🔒 `window.open(..., '_blank', 'noopener')` en las redirecciones a redes.
 - 🏷️ Logo convertido a `<h1>` (jerarquía semántica para SEO).
 - 🔝 Botón "volver arriba" flotante (izquierda, para no chocar con el chat de la derecha).
+- 📝 Sección "Servicios" (4 tarjetas elegantes, títulos en Cormorant serif dorado):
+  Sistemas Industriales · Desarrollo Web Full Stack · Troubleshooting & Soporte ·
+  Informes & Automatización. Ubicada entre Proyectos y Contacto.
+- 🖼️ Imagen social OG `og-totis.png` (1200×630, dorada, generada con Chromium desde
+  HTML). Meta tags `og:image` + `twitter:card=summary_large_image` actualizadas.
 - Nota: JSON-LD y contador Worker+D1 ya existían previamente.
+
+## Roadmap — próximas mejoras (elaborar con calma)
+
+Ideas acordadas con Víctor para futuras sesiones (priorizar elegancia, no alterar
+el diseño base):
+
+1. **Sección "Sobre mí"** — historia profesional breve y elegante.
+2. **Métricas de visitantes** — Google Analytics o panel propio (ya hay contador Worker+D1).
+3. **Optimizar `fondo.png` → WebP** — reduce peso ~60-80%, carga más rápida. Servir
+   con `<picture>` y fallback PNG. (Víctor prefiere convertir sus imágenes con calma.)
+4. **Testimonios / casos de éxito** — de clientes, con estilo dorado coherente.
+5. **Mejorar el modal de contacto** — pulir UX del formulario.
+
+Regla: mostrar preview (screenshot con Chromium) ANTES de publicar cambios visibles;
+publicar solo con OK explícito de Víctor.
