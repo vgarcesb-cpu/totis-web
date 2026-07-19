@@ -55,6 +55,16 @@ el diseño base):
    con `<picture>` y fallback PNG. (Víctor prefiere convertir sus imágenes con calma.)
 4. **Testimonios / casos de éxito** — de clientes, con estilo dorado coherente.
 5. **Mejorar el modal de contacto** — pulir UX del formulario.
+6. **[PENDIENTE] Desbloquear crawlers de redes sociales en Cloudflare** — la imagen
+   social `og-totis.png` ya está lista y conectada por meta tags, PERO el WAF de
+   Cloudflare (bloqueo geográfico a Chile + Bot Fight Mode) devuelve 403 al robot
+   `facebookexternalhit`, así que la vista previa NO se ve al compartir el link.
+   Fix: en Cloudflare → Security → WAF → Custom rules, crear regla "Skip / All
+   remaining custom rules" para user-agents `facebookexternalhit`, `Twitterbot`,
+   `WhatsApp`, `LinkedInBot`, `Slackbot`, `TelegramBot`, `Discordbot`, y moverla
+   AL TOPE (antes del bloqueo geográfico). Además activar "Allow verified bots" en
+   Bot Fight Mode. La seguridad se mantiene fuerte; solo se abre paso a crawlers
+   legítimos. Verificar luego con developers.facebook.com/tools/debug.
 
 Regla: mostrar preview (screenshot con Chromium) ANTES de publicar cambios visibles;
 publicar solo con OK explícito de Víctor.
