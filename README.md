@@ -34,7 +34,7 @@ técnico de cada app vive en su propio repo (`CONTEXT.md` cuando aplica).
 
 | App | Frontend | Repo real | Worker → API | Versión | CORS |
 |---|---|---|---|---|---|
-| Adquisiciones | adq.totis.cl | `Portal-Adq` | portal-adq-worker → adq-api | v2.3 | ✅ real, Zero Trust PIN |
+| Adquisiciones | adq.totis.cl | `Portal-Adq` | portal-adq-worker → adq.totis.cl/api/* | v2.4 (30-oct-2026) | ✅ Access + JWT |
 | Solicitud Supervisor | solicitud-supervisor.totis.cl | `Solicitud-Supervisor` | → supervisor-api | v1.2 | ✅ real, PWA offline-first |
 | NLS-2003-004 | nls.totis.cl | `nls` | nls-worker → nls-api | v1.2 | ✅ real |
 | Caldera | caldera.totis.cl | `caldera-app` | caldera-worker → caldera.totis.cl/api/* | v2.9 (29-oct-2026) | ✅ Access + JWT, Resend |
@@ -90,9 +90,9 @@ GitHub (README de perfil), **no pertenece** a la arquitectura totis.cl.
 |---|---|---|
 | Página presentación | GitHub Pages | www.totis.cl |
 | DNS + HTTPS + Seguridad | Cloudflare | Zona `totis.cl` |
-| Login apps | Cloudflare Zero Trust | Solo Adquisiciones |
+| Login apps | Cloudflare Zero Trust | PIN por correo en los portales; adq, aacc y caldera además validan el JWT en el Worker |
 | Apps industriales | Cloudflare Pages | `*.totis.cl` |
-| API backend | Cloudflare Workers | `*-api.totis.cl` (`workers.dev` OFF) |
+| API backend | Cloudflare Workers | `*-api.totis.cl`, o `<portal>.totis.cl/api/*` en adq, aacc y caldera (`workers.dev` OFF) |
 | Base de datos | Cloudflare D1 (SQLite) | snake_case |
 | Email (todas las apps) | Resend | Key dedicada por Worker, siempre en Secret |
 | Anti-bot (formularios totis.cl) | Cloudflare Turnstile | Site Key pública, Secret Key server-side |
