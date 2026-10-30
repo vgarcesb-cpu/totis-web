@@ -37,12 +37,12 @@ técnico de cada app vive en su propio repo (`CONTEXT.md` cuando aplica).
 | Adquisiciones | adq.totis.cl | `Portal-Adq` | portal-adq-worker → adq-api | v2.3 | ✅ real, Zero Trust PIN |
 | Solicitud Supervisor | solicitud-supervisor.totis.cl | `Solicitud-Supervisor` | → supervisor-api | v1.2 | ✅ real, PWA offline-first |
 | NLS-2003-004 | nls.totis.cl | `nls` | nls-worker → nls-api | v1.2 | ✅ real |
-| Caldera | caldera.totis.cl | `caldera-app` | caldera-worker → caldera-api | v2.5 | ✅ real, Resend |
+| Caldera | caldera.totis.cl | `caldera-app` | caldera-worker → caldera.totis.cl/api/* | v2.9 (29-oct-2026) | ✅ Access + JWT, Resend |
 | UPS | ups.totis.cl | `ups-app` | ups-worker → ups-api | v2.4 | ✅ real, Resend |
 | HVAC | hvac.totis.cl | `hvac-app` | worker hvac → hvac-api | v2.4 | ✅ real, Resend, sin pages.dev |
 | Generadores | generadores.totis.cl | `generadores-app` | generadores-worker | v1.1 | ✅ real, Resend |
-| AACC | aacc.totis.cl | `portal-aacc-fach` | portal-aacc-fach-api → aacc-api | v3.3 | ✅ real, modelo duro, Resend |
-| Mail (sitio) | totis.cl | `totis-web` | totis-mail-worker → mail-api | v1.2 | ✅ real, Turnstile + Resend |
+| AACC | aacc.totis.cl | `portal-aacc-fach` | portal-aacc-fach-api → aacc.totis.cl/api/* | v3.4 (30-oct-2026) | ✅ Access + JWT, Resend |
+| Mail (sitio) | totis.cl | `totis-web` | totis-mail-worker → mail-api | v1.4 (29-oct-2026) | ✅ real, Turnstile + Resend |
 | **Contador visitas** | totis.cl | `totis-web` | totis-worker → totis-api | **v1.1 (10-jul-2026)** | ✅ real, saneado (era "Estilo 2") |
 
 Repos públicos (sin IDs/detalles sensibles en docs): `totis-web`,
@@ -55,7 +55,7 @@ GitHub (README de perfil), **no pertenece** a la arquitectura totis.cl.
 
 ## 🔒 Seguridad — estado tras el ciclo de saneamiento (08/09/10-jul-2026)
 
-- [x] **CORS real verificado en los 9 Workers + totis-worker** — whitelist exacta (`===`, nunca `.includes()`), ACAO dinámico + `Vary: Origin`, rechazo 403. Excepción intencional: aacc también rechaza Origin vacío ("modelo duro").
+- [x] **CORS real verificado en los 9 Workers + totis-worker** — whitelist exacta (`===`, nunca `.includes()`), ACAO dinámico + `Vary: Origin`, rechazo 403. Caldera (v2.9) y aacc (v3.4) aceptan Origin vacío porque el API está en el mismo dominio; ahí el control real es el JWT de Access.
 - [x] **2 hallazgos críticos reales encontrados y corregidos**: adq (`ACAO:'*'` + bypass) y generadores (inyección SQL en `/api/bitacora` y `/api/mantenciones`) — la documentación previa no los reflejaba. Regla permanente: auditar siempre el `worker.js` real, nunca confiar en la etiqueta de versión documentada.
 - [x] **`_headers` con CSP + CSP Insights** en los 9 Workers (varios no existían — creados desde cero)
 - [x] **`catch` sin exponer `err.message` al cliente** en los 9 Workers + totis-worker
@@ -67,7 +67,7 @@ GitHub (README de perfil), **no pertenece** a la arquitectura totis.cl.
 - [x] **DNS de Cloudflare revisado** (10-jul-2026): 22 registros verificados contra el inventario real, 2 registros huérfanos de Amazon SES eliminados (sin relación con Resend). Como subproducto se descubrió `totis-worker`, auditado y saneado el mismo día.
 - [x] **Sistema de informes técnicos unificado** — módulo compartido `shared/informes.js` en este repo, probado en hvac y caldera (ver sección de arquitectura de email abajo)
 - [x] WAF de zona, Bot Fight Mode, Hotlink Protection, WAF Chile-only → activados
-- [x] Zero Trust PIN vigente solo en Adquisiciones (aacc tenía un comentario incorrecto en su código sugiriendo lo mismo, ya corregido)
+- [x] Zero Trust PIN en los frontends. Caldera y aacc además validan el JWT de Access en el Worker (oct-2026)
 
 ### Validaciones S25 (juez definitivo)
 ✅ **9/9 Workers completo** + totis-worker validado Mac (10-jul-2026, sin necesidad de S25 por ser utilitario sin frontend propio)
