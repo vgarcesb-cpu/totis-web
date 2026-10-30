@@ -230,3 +230,29 @@
   descargarInformeEditable() sin tocar.
 - Validado Mac: consola sin errores CSP, correo recibido con diseño
   unificado correcto.
+
+---
+
+## 29-oct-2026 — Revisión de APIs: caldera cerrada, diagnóstico de las 11 APIs y mail-api v1.3
+
+### caldera (repo `caldera-app`) ✅
+- La API estaba abierta: `caldera-api.totis.cl` solo filtraba por `Origin`.
+- Ahora vive en `caldera.totis.cl/api/*` detrás de Cloudflare Access y el Worker valida el JWT. `caldera-api.totis.cl` retirado. Worker v2.9. Detalle en el CONTEXT.md de `caldera-app`.
+
+### Diagnóstico sin login de las 11 APIs `*-api.totis.cl`
+| API | Resultado |
+|---|---|
+| `industrial-api` | Protegida con Access |
+| `mail-api` | Pública a propósito (formularios de totis.cl). Turnstile + destinatario fijo |
+| `aacc-api`, `ups-api` | `/api/health` responde sin login. Revisar primero |
+| `cartilla-api` | Solo filtra por `Origin` |
+| `supervisor-api` | Pide clave de sincronización. Revisar dónde se guarda |
+| `adq-api`, `generadores-api`, `hvac-api`, `nls-api`, `totis-api` | El Worker responde sin login. Revisar rutas con datos |
+
+Orden acordado para la revisión completa: aacc, adq, cartilla, generadores, hvac, industrial, (mail ✅), nls, supervisor, totis, ups.
+
+### mail-api — `totis-mail-worker` v1.3 ✅
+- Límites por campo (nombre 100, correo 254, teléfono 30, red 50, mensaje 2000) y cuerpo máximo 20 KB medido en bytes.
+- Turnstile exige `hostname` totis.cl o www.totis.cl.
+- El código del Worker queda en este repo: `workers/totis-mail-worker.js`.
+- `index.html`: `maxlength=2000` en el campo de consulta.
