@@ -257,3 +257,14 @@ Orden acordado para la revisión completa: aacc, adq, cartilla, generadores, hva
 - v1.4: el Worker deshace el escape de `cpSanitize()` del formulario antes de medir el largo y escapa una sola vez al armar el correo.
 - El código del Worker queda en este repo: `workers/totis-mail-worker.js`.
 - `index.html`: `maxlength=2000` en el campo de consulta.
+
+## 30-oct-2026 — aacc-api cerrada (Worker v3.4)
+
+### aacc (repo `portal-aacc-fach`) ✅
+- El portal `aacc.totis.cl` ya tenía Access, pero el API vivía en `aacc-api.totis.cl`, que no lo tenía. Con curl y un `Origin` inventado se podía leer, cambiar y borrar datos, y mandar correos desde `aacc@totis.cl`.
+- Ahora el API está en `aacc.totis.cl/api/*` (Worker Route) detrás del mismo PIN. El Worker v3.4 valida el JWT de Access, limita el largo de cada campo y revisa el destinatario del correo.
+- `aacc-api.totis.cl` eliminado (dominio y DNS). Sin login responde 401 por todas las vías probadas.
+- Probado en el Mac: Configuración → Probar Conexión muestra v3.4.0. Pendiente: prueba en el S26 (guardar y enviar reporte).
+- Detalle en el CONTEXT.md §6 de `portal-aacc-fach` (PR #1).
+
+Siguiente en la lista: `adq-api`.
