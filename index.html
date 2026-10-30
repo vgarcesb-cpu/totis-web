@@ -385,7 +385,7 @@ footer { border-top: 1px solid rgba(212,175,55,0.08); padding: 20px 0 32px; text
     <label for="cpTelefono">Teléfono</label>
     <input type="tel" id="cpTelefono" placeholder="+56 9 XXXX XXXX" maxlength="20" autocomplete="tel"/>
     <label for="cpConsulta">Tu consulta</label>
-    <textarea id="cpConsulta" placeholder="Escribe aquí tu consulta o solicitud..."></textarea>
+    <textarea id="cpConsulta" maxlength="2000" placeholder="Escribe aquí tu consulta o solicitud..."></textarea>
     <div class="cf-turnstile" data-sitekey="0x4AAAAAADr_tg7fuvSedgL0" data-callback="onTurnstileWidget" style="margin-bottom:10px;"></div>
     <button id="cpSendBtn" onclick="enviarConsultaWidget()">Enviar Consulta</button>
   </div>
