@@ -251,8 +251,9 @@
 
 Orden acordado para la revisión completa: aacc, adq, cartilla, generadores, hvac, industrial, (mail ✅), nls, supervisor, totis, ups.
 
-### mail-api — `totis-mail-worker` v1.3 ✅
+### mail-api — `totis-mail-worker` v1.4 ✅
 - Límites por campo (nombre 100, correo 254, teléfono 30, red 50, mensaje 2000) y cuerpo máximo 20 KB medido en bytes.
 - Turnstile exige `hostname` totis.cl o www.totis.cl.
+- v1.4: el Worker deshace el escape de `cpSanitize()` del formulario antes de medir el largo y escapa una sola vez al armar el correo.
 - El código del Worker queda en este repo: `workers/totis-mail-worker.js`.
 - `index.html`: `maxlength=2000` en el campo de consulta.

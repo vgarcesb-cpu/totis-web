@@ -14,6 +14,11 @@
 // v1.3 (29-oct-2026): límites de largo por campo y de tamaño del
 // cuerpo (20 KB, medido en bytes). Turnstile debe venir de
 // totis.cl (campo hostname de siteverify).
+// v1.4 (29-oct-2026): el formulario de totis.cl escapa los textos
+// (cpSanitize) antes de enviarlos. El Worker deshace ese escape antes
+// de medir el largo, para que un mensaje de 2000 caracteres con
+// apóstrofos o & no se rechace, y escapa una sola vez al armar el
+// correo (antes llegaba "&amp;#39;" en vez de "'").
 // ============================================================
 
 const FROM_EMAIL = 'web@totis.cl';
@@ -28,7 +33,7 @@ const HOSTS_TURNSTILE = ['totis.cl', 'www.totis.cl'];
 
 // Largo máximo por campo (caracteres) y tamaño máximo del cuerpo (bytes).
 const LARGOS = { nombre: 100, correo: 254, telefono: 30, red: 50, mensaje: 2000, tipo: 20, turnstileToken: 4096 };
-const CUERPO_MAX = 20000;
+const CUERPO_MAX = 64000; // bytes; los textos llegan escapados y pueden crecer hasta 5x
 
 function corsHeaders(origin) {
   const headers = {
@@ -56,6 +61,12 @@ function escH(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+// Revierte exactamente cpSanitize() de index.html (una sola pasada).
+function deshacerEscape(s) {
+  return String(s == null ? '' : s).replace(/&(amp|lt|gt|quot|#39);/g, m =>
+    ({ '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" })[m]);
+}
+
 function esEmailValido(e) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
@@ -77,7 +88,7 @@ export default {
     const method = request.method;
 
     if (path === '/health')
-      return resp({ ok: true, app: 'TOTIS-MAIL', version: '1.3', ts: new Date().toISOString() });
+      return resp({ ok: true, app: 'TOTIS-MAIL', version: '1.4', ts: new Date().toISOString() });
 
     if (path === '/api/send-contact' && method === 'POST') {
       try {
@@ -90,18 +101,25 @@ export default {
         let d;
         try { d = JSON.parse(new TextDecoder().decode(buffer)); } catch (_) { return resp({ error: 'JSON inválido' }, 400); }
         if (!d || typeof d !== 'object' || Array.isArray(d)) return resp({ error: 'Se esperaba un objeto JSON' }, 400);
-        for (const [campo, max] of Object.entries(LARGOS)) {
-          if (d[campo] != null && (typeof d[campo] === 'object' || String(d[campo]).length > max))
-            return resp({ error: `El campo ${campo} supera ${max} caracteres o es inválido` }, 400);
+        for (const campo of Object.keys(LARGOS)) {
+          if (d[campo] != null && typeof d[campo] === 'object')
+            return resp({ error: `Campo ${campo} inválido` }, 400);
         }
 
         const tipo = d.tipo === 'red-social' ? 'red-social' : 'consulta';
-        const nombre = String(d.nombre || '').trim();
-        const correo = String(d.correo || '').trim();
-        const telefono = String(d.telefono || '').trim();
-        const mensaje = String(d.mensaje || '').trim();
-        const red = String(d.red || '').trim();
+        const nombre = deshacerEscape(d.nombre).trim();
+        const correo = deshacerEscape(d.correo).trim();
+        const telefono = deshacerEscape(d.telefono).trim();
+        const mensaje = deshacerEscape(d.mensaje).trim();
+        const red = deshacerEscape(d.red).trim();
         const turnstileToken = String(d.turnstileToken || '').trim();
+
+        // Largo medido sobre el texto real (sin el escape del formulario).
+        const valores = { tipo: String(d.tipo || ''), nombre, correo, telefono, red, mensaje, turnstileToken };
+        for (const [campo, max] of Object.entries(LARGOS)) {
+          if (valores[campo].length > max)
+            return resp({ error: `El campo ${campo} supera ${max} caracteres` }, 400);
+        }
 
         if (!nombre) return resp({ error: 'Falta nombre' }, 400);
         if (!esEmailValido(correo)) return resp({ error: 'Correo inválido' }, 400);
