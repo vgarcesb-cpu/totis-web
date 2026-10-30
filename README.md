@@ -34,7 +34,7 @@ técnico de cada app vive en su propio repo (`CONTEXT.md` cuando aplica).
 
 | App | Frontend | Repo real | Worker → API | Versión | CORS |
 |---|---|---|---|---|---|
-| Adquisiciones | adq.totis.cl | `Portal-Adq` | portal-adq-worker → adq-api | v2.3 | ✅ real, Zero Trust PIN |
+| Adquisiciones | adq.totis.cl | `Portal-Adq` | portal-adq-worker → adq.totis.cl/api/* | v2.4 (30-oct-2026) | ✅ Access + JWT |
 | Solicitud Supervisor | solicitud-supervisor.totis.cl | `Solicitud-Supervisor` | → supervisor-api | v1.2 | ✅ real, PWA offline-first |
 | NLS-2003-004 | nls.totis.cl | `nls` | nls-worker → nls-api | v1.2 | ✅ real |
 | Caldera | caldera.totis.cl | `caldera-app` | caldera-worker → caldera.totis.cl/api/* | v2.9 (29-oct-2026) | ✅ Access + JWT, Resend |

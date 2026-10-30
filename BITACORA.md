@@ -268,3 +268,15 @@ Orden acordado para la revisión completa: aacc, adq, cartilla, generadores, hva
 - Detalle en el CONTEXT.md §6 de `portal-aacc-fach` (PR #1).
 
 Siguiente en la lista: `adq-api`.
+
+## 30-oct-2026 (cont.) — adq-api cerrada (Worker v2.4)
+
+### adq (repo `Portal-Adq`) ✅
+- `adq.totis.cl` tenía Access, pero el API vivía en `adq-api.totis.cl`, sin Access, y el Worker aceptaba peticiones sin `Origin`. Sin login se podían leer y borrar solicitudes oficiales y respaldos de supervisor, con firmas.
+- Ahora el API está en `adq.totis.cl/api/*` (Worker Route). El Worker v2.4 valida el JWT de Access, quita el prefijo `/api`, limita el largo de cada campo y de la lista de materiales, y solo acepta la firma como imagen JPEG/PNG.
+- El frontend avisa cuando no se guarda en el historial (antes fallaba en silencio) y cuando vence la sesión.
+- `adq-api.totis.cl` eliminado (dominio y DNS). URL `workers.dev` desactivada.
+- Probado en el Mac: `/api/health` responde v2.4 con sesión y el Historial carga. Pendiente: prueba en el S26 (respaldo de supervisor).
+- Detalle en el CONTEXT.md de `Portal-Adq` (PR #1).
+
+Siguiente en la lista: `cartilla-api`.
