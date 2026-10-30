@@ -280,3 +280,15 @@ Siguiente en la lista: `adq-api`.
 - Detalle en el CONTEXT.md de `Portal-Adq` (PR #1).
 
 Siguiente en la lista: `cartilla-api`.
+
+## 30-oct-2026 (cont.) — cartilla-api cerrada (Worker v1.1.0)
+
+### cartilla (repo `cartilla-generadores-app`) ✅
+- El Worker aceptaba cualquier `Origin` terminado en `.pages.dev` y no pedía login: se podían leer todas las cartillas y sobrescribir cualquiera. Además `cartilla.totis.cl` no estaba en la lista de orígenes, así que el respaldo desde el portal real nunca funcionó (D1 con 3 registros, el último del 22-jul).
+- Ahora el API está en `cartilla.totis.cl/api/*` (Worker Route). El Worker v1.1.0 valida el JWT de Access, usa whitelist exacta, mide el cuerpo en bytes (5 MB) y solo acepta foto y firma como imagen.
+- En la app, el respaldo se activa con un botón en "Sync nube" (ya no se escribe una URL) y solo funciona desde `cartilla.totis.cl`.
+- `cartilla-api.totis.cl` eliminado. URLs `workers.dev` (producción y vista previa) apagadas.
+- Probado en el Mac: "Conectado: cartilla-generadores v1.1.0" y "Traer respaldo" recibió los 3 registros. Pendiente: prueba en el S26 (cartilla con foto y firma).
+- Detalle en el CONTEXT.md de `cartilla-generadores-app` (PR #1).
+
+Siguiente en la lista: `generadores-api`.
