@@ -90,9 +90,9 @@ GitHub (README de perfil), **no pertenece** a la arquitectura totis.cl.
 |---|---|---|
 | Página presentación | GitHub Pages | www.totis.cl |
 | DNS + HTTPS + Seguridad | Cloudflare | Zona `totis.cl` |
-| Login apps | Cloudflare Zero Trust | Solo Adquisiciones |
+| Login apps | Cloudflare Zero Trust | PIN por correo en los portales; adq, aacc y caldera además validan el JWT en el Worker |
 | Apps industriales | Cloudflare Pages | `*.totis.cl` |
-| API backend | Cloudflare Workers | `*-api.totis.cl` (`workers.dev` OFF) |
+| API backend | Cloudflare Workers | `*-api.totis.cl`, o `<portal>.totis.cl/api/*` en adq, aacc y caldera (`workers.dev` OFF) |
 | Base de datos | Cloudflare D1 (SQLite) | snake_case |
 | Email (todas las apps) | Resend | Key dedicada por Worker, siempre en Secret |
 | Anti-bot (formularios totis.cl) | Cloudflare Turnstile | Site Key pública, Secret Key server-side |
