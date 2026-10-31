@@ -292,3 +292,15 @@ Siguiente en la lista: `cartilla-api`.
 - Detalle en el CONTEXT.md de `cartilla-generadores-app` (PR #1).
 
 Siguiente en la lista: `generadores-api`.
+
+## 31-oct-2026 — generadores-api cerrada (Worker v1.2)
+
+### generadores (repo `generadores-app`) ✅
+- `generadores.totis.cl` tenía Access, pero el API vivía en `generadores-api.totis.cl`, sin Access, y el Worker aceptaba peticiones sin `Origin`. Sin login se podía leer, cambiar y borrar generadores, y mandar correos desde `generadores@totis.cl` a cualquier dirección.
+- El `worker.js` del repo era la v1.0, con la inyección SQL que ya se había corregido en producción (v1.1). Ahora el repo tiene la versión real.
+- Ahora el API está en `generadores.totis.cl/api/*` (Worker Route). El Worker v1.2 valida el JWT de Access, limita el largo de cada campo, revisa el destinatario del correo y agrega `/api/health`.
+- `generadores-api.totis.cl` eliminado. URLs `workers.dev` ya estaban apagadas.
+- Probado en el Mac: `/api/health` responde v1.2 y el Dashboard carga. La base `generadores-db` está vacía (0 generadores, 0 mantenciones): la app nunca se ha usado con datos reales.
+- Detalle en el README de `generadores-app` (PR #1).
+
+Siguiente en la lista: `hvac-api`. Pendiente aparte: borrar la cartilla (decisión de Víctor).
