@@ -365,7 +365,7 @@ Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
 - Ya estaban bien: industrial (Access + JWT + permisos en D1), supervisor (clave de sincronización) y totis (contador público por diseño).
 
 ### Pendientes para la próxima sesión
-1. Borrar la cartilla, pasos 0 al 7: 0) exportar respaldo JSON desde Historial; 1) borrar la app de Access "cartilla"; 2) borrar la ruta `cartilla.totis.cl/api/*` y luego el Worker `cartilla-generadores-worker`; 3) quitar el dominio del proyecto Pages `cartilla-generadores-app` y borrar el proyecto; 4) borrar el CNAME `cartilla.totis.cl` si queda; 5) borrar la D1 `cartilla-generadores-db`; 6) borrar el repo `cartilla-generadores-app` en GitHub; 7) desinstalar la PWA del S26. Después sacarla del README.
+1. ~~Borrar la cartilla~~ ✅ hecho el 31-oct-2026 (ver entrada siguiente).
 2. Borrar el Worker huérfano `totis-web`: 1) abrir el `totis-web` con ícono de Worker; 2) confirmar que en Dominios aparece `totis-web.vgarcesb.workers.dev` y en Configuración están `RESEND_API_KEY` y `TURNSTILE_SECRET_KEY`; 3) apagar los dos interruptores de `workers.dev` y verificar que dejó de responder; 4) Configuración → Eliminar, confirmando con el nombre `totis-web`.
 3. Decidir la espera para recargar las llaves de Access cuando cambian (hoy 5 min en los Workers con JWT; Codex sugirió 30 s). Recomendación: dejar 5 min.
 4. Pruebas en el S26 de aacc, adq, cartilla, generadores, hvac, nls y ups.
@@ -375,3 +375,11 @@ Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
 1. industrial: quitar el respaldo que lee el header de email cuando falta el JWT.
 2. industrial: bajar de 1 hora a 5 min la recarga de llaves de Access ante un `kid` desconocido.
 3. supervisor: medir el tamaño real del cuerpo recibido, no solo el `Content-Length` que declara el cliente (hoy igual recorta cada campo, sin riesgo práctico).
+
+## 31-oct-2026 (tarde) — Cartilla Generadores eliminada
+
+- Antes de borrar se comparó con generadores.totis.cl. Lo que vale la pena traer (pauta Finning CAT de 68 ítems con estados, llenado por módulos, foto de evidencia, WhatsApp, modo sin conexión) quedó en `generadores-app/docs/cartilla-vs-generadores.md`, junto con una copia del código en `docs/referencia-cartilla/`. Se trabajará en otra sesión.
+- Sin respaldo de datos, por decisión de Víctor (eran 3 registros de prueba del 22-jul).
+- Borrado y verificado en orden: app de Access `cartilla`, ruta `cartilla.totis.cl/api/*`, Worker `cartilla-generadores-worker`, dominio y proyecto Pages `cartilla-generadores-app`, CNAME `cartilla.totis.cl` (lo quitó Cloudflare con el dominio), D1 `cartilla-generadores-db` y repo de GitHub `cartilla-generadores-app`.
+- Falta desinstalar la PWA del S26.
+- Quedan 7 rutas `/api/*` (aacc, adq, caldera, generadores, nls, hvac, ups) y 10 bases D1.
