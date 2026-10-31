@@ -304,3 +304,17 @@ Siguiente en la lista: `generadores-api`.
 - Detalle en el README de `generadores-app` (PR #1).
 
 Siguiente en la lista: `hvac-api`. Pendiente aparte: borrar la cartilla (decisión de Víctor).
+
+## 31-oct-2026 (cont.) — hvac-api cerrada (Worker v2.5)
+
+### hvac (repo `hvac-app`) ✅
+- `hvac.totis.cl` tenía Access, pero el API vivía en `hvac-api.totis.cl`, sin Access, y el Worker aceptaba peticiones sin `Origin`. Sin login se podían leer y crear equipos y mantenimientos, y mandar correos desde `hvac@totis.cl` a cualquier dirección.
+- El `worker.js` del repo estaba en v2.3 (producción v2.4). Ahora el repo tiene la versión real.
+- Ahora el API está en `hvac.totis.cl/api/*` (Worker Route). El Worker v2.5 valida el JWT de Access, limita el largo de cada campo, revisa el destinatario del correo y agrega `/api/health`.
+- `hvac-api.totis.cl` eliminado. URLs `workers.dev` apagadas.
+- Workers Builds del Worker `hvac-app`: apagadas las compilaciones de ramas de no producción (fallaban siempre con el error 10021 por el `database_id` de ejemplo en `wrangler.toml`). En `main` el comando de despliegue es `echo ok`, así que no publica nada.
+- Probado en el Mac: `/api/health` responde v2.5. La base tiene 1 equipo y 2 mantenciones.
+- Pendiente de decisión: Codex sugirió acortar a 30 s la espera para recargar las llaves de Access (hoy 5 min, igual en los 6 Workers). Recomendación: dejarlo así.
+- Detalle en el CONTEXT.md de `hvac-app` (PR #1).
+
+Siguiente en la lista: `industrial-api` (solo verificar). Pendiente aparte: borrar la cartilla.
