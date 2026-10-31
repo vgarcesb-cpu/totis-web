@@ -381,5 +381,13 @@ Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
 - Antes de borrar se comparó con generadores.totis.cl. Lo que vale la pena traer (pauta Finning CAT de 68 ítems con estados, llenado por módulos, foto de evidencia, WhatsApp, modo sin conexión) quedó en `generadores-app/docs/cartilla-vs-generadores.md`, junto con una copia del código en `docs/referencia-cartilla/`. Se trabajará en otra sesión.
 - Sin respaldo de datos, por decisión de Víctor (eran 3 registros de prueba del 22-jul).
 - Borrado y verificado en orden: app de Access `cartilla`, ruta `cartilla.totis.cl/api/*`, Worker `cartilla-generadores-worker`, dominio y proyecto Pages `cartilla-generadores-app`, CNAME `cartilla.totis.cl` (lo quitó Cloudflare con el dominio), D1 `cartilla-generadores-db` y repo de GitHub `cartilla-generadores-app`.
-- Falta desinstalar la PWA del S26.
+- La PWA no estaba instalada en el S26; no hubo nada que desinstalar.
 - Quedan 7 rutas `/api/*` (aacc, adq, caldera, generadores, nls, hvac, ups) y 10 bases D1.
+
+## 31-oct-2026 (tarde, cont.) — Pendientes cerrados y mejoras menores publicadas
+
+- ✅ Worker huérfano `totis-web` (correo v1.1 viejo): se apagaron sus URLs `workers.dev`, se verificó que dejó de responder y se eliminó. El proyecto Pages `totis-web` (www.totis.cl) sigue intacto.
+- ✅ Recarga de llaves de Access: Víctor decidió dejar 5 minutos en todos los Workers con JWT. Sin cambios.
+- ✅ industrial (`totis-industrial-api`, repo `totis-industrial` PR #1): la identidad sale solo del JWT de Access verificado; se quitó el respaldo que aceptaba el header de email sin JWT. Exige RS256, revisa `iss` y `nbf`, y ante un `kid` nuevo recarga las llaves (máximo cada 5 min, una sola descarga aunque lleguen varias solicitudes a la vez, ajuste pedido por Codex). Probado: `industrial.totis.cl` conecta como Superadministrador.
+- ✅ supervisor (`solicitud-supervisor-worker` v1.5, PR #7): el tope de 1,5 MB del POST se mide sobre los bytes recibidos. `/health` responde 1.5.
+- Queda: pruebas en el S26 de aacc, adq, generadores, hvac, nls, ups, industrial y supervisor; y, opcional, corregir "Ubicación" y "Test" de la Bomba Nº1 en caldera.
