@@ -391,3 +391,10 @@ Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
 - ✅ industrial (`totis-industrial-api`, repo `totis-industrial` PR #1): la identidad sale solo del JWT de Access verificado; se quitó el respaldo que aceptaba el header de email sin JWT. Exige RS256, revisa `iss` y `nbf`, y ante un `kid` nuevo recarga las llaves (máximo cada 5 min, una sola descarga aunque lleguen varias solicitudes a la vez, ajuste pedido por Codex). Probado: `industrial.totis.cl` conecta como Superadministrador.
 - ✅ supervisor (`solicitud-supervisor-worker` v1.5, PR #7): el tope de 1,5 MB del POST se mide sobre los bytes recibidos. `/health` responde 1.5.
 - Queda: pruebas en el S26 de aacc, adq, generadores, hvac, nls, ups, industrial y supervisor; y, opcional, corregir "Ubicación" y "Test" de la Bomba Nº1 en caldera.
+
+## 31-oct-2026 (noche) — Toti's Industrial eliminado
+
+- Víctor no usaba `industrial.totis.cl`; las ideas que sirven para las otras apps quedaron en `generadores-app/docs/referencia-industrial/` (PDF en servidor con versiones, registro de correos enviados, sincronización sin conexión, historial de equipos, campos técnicos por familia), junto con el código del Worker, las migraciones D1 y la documentación.
+- Borrado y verificado en orden: Worker `totis-industrial-api` (con `industrial-api.totis.cl`), proyecto Pages `totis-industrial` (con `industrial.totis.cl`; Cloudflare quitó los dos registros DNS), app de Access `totis-industrial-api`, D1 `totis-industrial-db`, bucket R2 `totis-industrial-files` (2 PDF de prueba), clave de Resend `totis-industrial-worker-2026` y repo de GitHub `totis-industrial`.
+- Quedan: 13 apps de Access, 9 bases D1, 0 buckets R2 y 6 claves de Resend (ups, aacc, generadores, hvac, caldera y mail).
+- Caldera: en CAL-0001 la Ubicación vacía y la marca "Test" de la Bomba Nº1 quedaron como "Por definir" (cambio directo en D1, sin tocar otros campos). Nuevo pendiente: la pantalla "Ficha Caldera" no carga los datos guardados y al guardar los reemplaza con valores fijos (por ejemplo, devolvería el Estado a "Operativa").
