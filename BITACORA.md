@@ -335,3 +335,44 @@ Siguiente en la lista: `industrial-api` (solo verificar). Pendiente aparte: borr
 - Detalle en el CONTEXT.md de `nls` (PR #1).
 
 Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
+
+## 31-oct-2026 (cont.) — supervisor y totis verificadas, ups-api cerrada (Worker v2.5). Fin de la revisión de APIs
+
+### supervisor (`solicitud-supervisor-worker` v1.4) ✅ sin cambios
+- Ya estaba protegida desde el 28/29-oct: toda ruta de datos exige la clave de sincronización (Secret `SYNC_KEY`, comparación en tiempo constante). Sin clave responde 401. `/health` es pública y solo informa versión y si la clave es válida.
+- No usa Access a propósito: la PWA trabaja offline en el S26 y sincroniza con la clave.
+- `workers.dev` apagado. El repo coincide con producción.
+
+### totis-api (`totis-worker` v1.1) ✅ sin cambios
+- Contador de visitas de la portada. Es público por diseño: suma una visita por IP al día y entrega el total. No expone datos.
+- `workers.dev` apagado; solo `totis-api.totis.cl`, detrás del WAF de la zona.
+
+### Hallazgo: Worker huérfano `totis-web`
+- Primera versión del correo del sitio (v1.1, julio). La reemplazó `totis-mail-worker` (`mail-api.totis.cl`) y nadie lo llama, pero sigue encendido en `totis-web.vgarcesb.workers.dev`, fuera del WAF, con una clave de Resend y la de Turnstile como Secrets.
+- Turnstile impide el spam y el destino es fijo, así que el riesgo es bajo. Queda en pendientes para borrarlo. Ojo: no confundir con el proyecto de Pages `totis-web`.
+
+### ups (repo `ups-app`) ✅
+- `ups.totis.cl` tenía Access, pero el API vivía en `ups-api.totis.cl`, sin Access, y el Worker aceptaba peticiones sin `Origin`. Sin login se podían leer, crear y borrar UPS, mantenciones y empresas, y mandar correos con HTML libre desde `ups@totis.cl` a cualquier dirección.
+- El `worker.js` del repo estaba en v2.1 (producción v2.4). Ahora el repo tiene la versión real.
+- Ahora el API está en `ups.totis.cl/api/*` (Worker Route). El Worker v2.5 valida el JWT de Access, limita tamaños y largos, revisa fechas, horas e IDs, valida el destinatario del correo y deja en el log quién envía o borra.
+- Frontend: API en el mismo dominio, aviso de sesión vencida, `escH()` en 33 lugares que faltaban, `maxlength` en los campos.
+- Probado en el Mac: `ups.totis.cl/api/health` responde v2.5 y `ups-api.totis.cl` sin PIN responde "No autenticado". La base tiene 0 UPS y 1 mantención.
+- Detalle en el CONTEXT.md de `ups-app` (PR #1).
+
+### Resultado de la revisión (29 al 31-oct-2026)
+- Revisadas las 11 APIs: mail, aacc, adq, cartilla, generadores, hvac, industrial, nls, supervisor, totis y ups.
+- Cerradas 8 que se podían usar sin login: aacc, adq, cartilla, generadores, hvac, nls, ups (API movida a `<portal>.totis.cl/api/*` + JWT de Access) y mail (v1.4). Caldera se cerró antes, el 29-oct.
+- Ya estaban bien: industrial (Access + JWT + permisos en D1), supervisor (clave de sincronización) y totis (contador público por diseño).
+
+### Pendientes para la próxima sesión
+1. Borrar el dominio `ups-api.totis.cl` del Worker `ups-worker` (Dominios → ⋯ → Eliminar). No tocar la ruta `ups.totis.cl/api/*`.
+2. Borrar la cartilla, pasos 0 al 7: 0) exportar respaldo JSON desde Historial; 1) borrar la app de Access "cartilla"; 2) borrar la ruta `cartilla.totis.cl/api/*` y luego el Worker `cartilla-generadores-worker`; 3) quitar el dominio del proyecto Pages `cartilla-generadores-app` y borrar el proyecto; 4) borrar el CNAME `cartilla.totis.cl` si queda; 5) borrar la D1 `cartilla-generadores-db`; 6) borrar el repo `cartilla-generadores-app` en GitHub; 7) desinstalar la PWA del S26. Después sacarla del README.
+3. Borrar el Worker huérfano `totis-web`: 1) abrir el `totis-web` con ícono de Worker; 2) confirmar que en Dominios aparece `totis-web.vgarcesb.workers.dev` y en Configuración están `RESEND_API_KEY` y `TURNSTILE_SECRET_KEY`; 3) apagar los dos interruptores de `workers.dev` y verificar que dejó de responder; 4) Configuración → Eliminar, confirmando con el nombre `totis-web`.
+4. Decidir la espera para recargar las llaves de Access cuando cambian (hoy 5 min en los Workers con JWT; Codex sugirió 30 s). Recomendación: dejar 5 min.
+5. Pruebas en el S26 de aacc, adq, cartilla, generadores, hvac, nls y ups.
+6. Opcional: corregir en caldera los datos "Ubicación" y "Test" de la Bomba Nº1.
+
+### Mejoras menores (no urgentes)
+1. industrial: quitar el respaldo que lee el header de email cuando falta el JWT.
+2. industrial: bajar de 1 hora a 5 min la recarga de llaves de Access ante un `kid` desconocido.
+3. supervisor: medir el tamaño real del cuerpo recibido, no solo el `Content-Length` que declara el cliente (hoy igual recorta cada campo, sin riesgo práctico).
