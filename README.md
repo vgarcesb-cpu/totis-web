@@ -36,7 +36,7 @@ técnico de cada app vive en su propio repo (`CONTEXT.md` cuando aplica).
 |---|---|---|---|---|---|
 | Adquisiciones | adq.totis.cl | `Portal-Adq` | portal-adq-worker → adq.totis.cl/api/* | v2.4 (30-oct-2026) | ✅ Access + JWT |
 | Solicitud Supervisor | solicitud-supervisor.totis.cl | `Solicitud-Supervisor` | → supervisor-api | v1.2 | ✅ real, PWA offline-first |
-| NLS-2003-004 | nls.totis.cl | `nls` | nls-worker → nls-api | v1.2 | ✅ real |
+| NLS-2003-004 | nls.totis.cl | `nls` | nls-worker → nls.totis.cl/api/* | v1.3 (31-oct-2026) | ✅ Access + JWT |
 | Caldera | caldera.totis.cl | `caldera-app` | caldera-worker → caldera.totis.cl/api/* | v2.9 (29-oct-2026) | ✅ Access + JWT, Resend |
 | UPS | ups.totis.cl | `ups-app` | ups-worker → ups-api | v2.4 | ✅ real, Resend |
 | HVAC | hvac.totis.cl | `hvac-app` | worker hvac-app → hvac.totis.cl/api/* | v2.5 (31-oct-2026) | ✅ Access + JWT, Resend |
@@ -91,9 +91,9 @@ GitHub (README de perfil), **no pertenece** a la arquitectura totis.cl.
 |---|---|---|
 | Página presentación | GitHub Pages | www.totis.cl |
 | DNS + HTTPS + Seguridad | Cloudflare | Zona `totis.cl` |
-| Login apps | Cloudflare Zero Trust | PIN por correo en los portales; adq, aacc, caldera, cartilla, generadores y hvac además validan el JWT en el Worker |
+| Login apps | Cloudflare Zero Trust | PIN por correo en los portales; adq, aacc, caldera, cartilla, generadores, hvac y nls además validan el JWT en el Worker |
 | Apps industriales | Cloudflare Pages | `*.totis.cl` |
-| API backend | Cloudflare Workers | `*-api.totis.cl`, o `<portal>.totis.cl/api/*` en adq, aacc, caldera, cartilla, generadores y hvac (`workers.dev` OFF) |
+| API backend | Cloudflare Workers | `*-api.totis.cl`, o `<portal>.totis.cl/api/*` en adq, aacc, caldera, cartilla, generadores, hvac y nls (`workers.dev` OFF) |
 | Base de datos | Cloudflare D1 (SQLite) | snake_case |
 | Email (todas las apps) | Resend | Key dedicada por Worker, siempre en Secret |
 | Anti-bot (formularios totis.cl) | Cloudflare Turnstile | Site Key pública, Secret Key server-side |
