@@ -41,7 +41,6 @@ técnico de cada app vive en su propio repo (`CONTEXT.md` cuando aplica).
 | UPS | ups.totis.cl | `ups-app` | ups-worker → ups.totis.cl/api/* | v2.5 (31-oct-2026) | ✅ Access + JWT, Resend |
 | HVAC | hvac.totis.cl | `hvac-app` | worker hvac-app → hvac.totis.cl/api/* | v2.5 (31-oct-2026) | ✅ Access + JWT, Resend |
 | Generadores | generadores.totis.cl | `generadores-app` | generadores-worker → generadores.totis.cl/api/* | v1.2 (31-oct-2026) | ✅ Access + JWT, Resend |
-| Cartilla Generadores | cartilla.totis.cl | `cartilla-generadores-app` | cartilla-generadores-worker → cartilla.totis.cl/api/* | v1.1.0 (30-oct-2026) | ✅ Access + JWT, respaldo opcional |
 | AACC | aacc.totis.cl | `portal-aacc-fach` | portal-aacc-fach-api → aacc.totis.cl/api/* | v3.4 (30-oct-2026) | ✅ Access + JWT, Resend |
 | Mail (sitio) | totis.cl | `totis-web` | totis-mail-worker → mail-api | v1.4 (29-oct-2026) | ✅ real, Turnstile + Resend |
 | **Contador visitas** | totis.cl | `totis-web` | totis-worker → totis-api | **v1.1 (10-jul-2026)** | ✅ real, saneado (era "Estilo 2") |
@@ -91,9 +90,9 @@ GitHub (README de perfil), **no pertenece** a la arquitectura totis.cl.
 |---|---|---|
 | Página presentación | GitHub Pages | www.totis.cl |
 | DNS + HTTPS + Seguridad | Cloudflare | Zona `totis.cl` |
-| Login apps | Cloudflare Zero Trust | PIN por correo en los portales; adq, aacc, caldera, cartilla, generadores, hvac, nls y ups además validan el JWT en el Worker |
+| Login apps | Cloudflare Zero Trust | PIN por correo en los portales; adq, aacc, caldera, generadores, hvac, nls y ups además validan el JWT en el Worker |
 | Apps industriales | Cloudflare Pages | `*.totis.cl` |
-| API backend | Cloudflare Workers | `*-api.totis.cl`, o `<portal>.totis.cl/api/*` en adq, aacc, caldera, cartilla, generadores, hvac, nls y ups (`workers.dev` OFF) |
+| API backend | Cloudflare Workers | `*-api.totis.cl`, o `<portal>.totis.cl/api/*` en adq, aacc, caldera, generadores, hvac, nls y ups (`workers.dev` OFF) |
 | Base de datos | Cloudflare D1 (SQLite) | snake_case |
 | Email (todas las apps) | Resend | Key dedicada por Worker, siempre en Secret |
 | Anti-bot (formularios totis.cl) | Cloudflare Turnstile | Site Key pública, Secret Key server-side |
