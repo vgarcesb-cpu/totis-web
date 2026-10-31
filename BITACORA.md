@@ -318,3 +318,20 @@ Siguiente en la lista: `hvac-api`. Pendiente aparte: borrar la cartilla (decisi�
 - Detalle en el CONTEXT.md de `hvac-app` (PR #1).
 
 Siguiente en la lista: `industrial-api` (solo verificar). Pendiente aparte: borrar la cartilla.
+
+## 31-oct-2026 (cont.) — industrial verificada, nls-api cerrada (Worker v1.3)
+
+### industrial (`totis-industrial-api` v0.2.0) ✅ sin cambios
+- Ya estaba bien: Access cubre `industrial.totis.cl` e `industrial-api.totis.cl`, el Worker valida el JWT y revisa usuario, permisos y empresa en D1. `workers.dev` apagado.
+- Dos mejoras menores para más adelante: quitar el respaldo que lee el header de email cuando falta el JWT, y bajar de 1 hora a 5 min la recarga de llaves de Access cuando llega un `kid` desconocido.
+
+### nls (repo `nls`) ✅
+- `nls.totis.cl` tenía Access, pero el API vivía en `nls-api.totis.cl`, sin Access, y el Worker aceptaba peticiones sin `Origin`. Sin login se podían leer y borrar equipos, bitácoras, tareas e informes.
+- Ahora el API está en `nls.totis.cl/api/*` (Worker Route). El Worker v1.3 valida el JWT de Access, limita el largo de cada campo, exige fechas AAAA-MM-DD y en `/config` solo guarda las claves conocidas.
+- Corregido de paso: `extras` llegaba como texto y por eso nunca se mostraban las alertas R-22 / SESMA ni los datos específicos de la hoja de vida.
+- Frontend: URL del API fija (`/api`), aviso de sesión vencida, `escH()` en los renders que faltaban y `maxlength` en los campos de texto.
+- `nls-api.totis.cl` eliminado. `workers.dev` ya estaba apagado.
+- Probado en el Mac: `nls.totis.cl/api/health` responde v1.3. La base está vacía.
+- Detalle en el CONTEXT.md de `nls` (PR #1).
+
+Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
