@@ -356,7 +356,7 @@ Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
 - El `worker.js` del repo estaba en v2.1 (producción v2.4). Ahora el repo tiene la versión real.
 - Ahora el API está en `ups.totis.cl/api/*` (Worker Route). El Worker v2.5 valida el JWT de Access, limita tamaños y largos, revisa fechas, horas e IDs, valida el destinatario del correo y deja en el log quién envía o borra.
 - Frontend: API en el mismo dominio, aviso de sesión vencida, `escH()` en 33 lugares que faltaban, `maxlength` en los campos.
-- Probado en el Mac: `ups.totis.cl/api/health` responde v2.5 y `ups-api.totis.cl` sin PIN responde "No autenticado". La base tiene 0 UPS y 1 mantención.
+- Probado en el Mac: `ups.totis.cl/api/health` responde v2.5 y `ups-api.totis.cl` sin PIN respondía "No autenticado". `ups-api.totis.cl` eliminado; `workers.dev` apagado. La base tiene 0 UPS y 1 mantención.
 - Detalle en el CONTEXT.md de `ups-app` (PR #1).
 
 ### Resultado de la revisión (29 al 31-oct-2026)
@@ -365,12 +365,11 @@ Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
 - Ya estaban bien: industrial (Access + JWT + permisos en D1), supervisor (clave de sincronización) y totis (contador público por diseño).
 
 ### Pendientes para la próxima sesión
-1. Borrar el dominio `ups-api.totis.cl` del Worker `ups-worker` (Dominios → ⋯ → Eliminar). No tocar la ruta `ups.totis.cl/api/*`.
-2. Borrar la cartilla, pasos 0 al 7: 0) exportar respaldo JSON desde Historial; 1) borrar la app de Access "cartilla"; 2) borrar la ruta `cartilla.totis.cl/api/*` y luego el Worker `cartilla-generadores-worker`; 3) quitar el dominio del proyecto Pages `cartilla-generadores-app` y borrar el proyecto; 4) borrar el CNAME `cartilla.totis.cl` si queda; 5) borrar la D1 `cartilla-generadores-db`; 6) borrar el repo `cartilla-generadores-app` en GitHub; 7) desinstalar la PWA del S26. Después sacarla del README.
-3. Borrar el Worker huérfano `totis-web`: 1) abrir el `totis-web` con ícono de Worker; 2) confirmar que en Dominios aparece `totis-web.vgarcesb.workers.dev` y en Configuración están `RESEND_API_KEY` y `TURNSTILE_SECRET_KEY`; 3) apagar los dos interruptores de `workers.dev` y verificar que dejó de responder; 4) Configuración → Eliminar, confirmando con el nombre `totis-web`.
-4. Decidir la espera para recargar las llaves de Access cuando cambian (hoy 5 min en los Workers con JWT; Codex sugirió 30 s). Recomendación: dejar 5 min.
-5. Pruebas en el S26 de aacc, adq, cartilla, generadores, hvac, nls y ups.
-6. Opcional: corregir en caldera los datos "Ubicación" y "Test" de la Bomba Nº1.
+1. Borrar la cartilla, pasos 0 al 7: 0) exportar respaldo JSON desde Historial; 1) borrar la app de Access "cartilla"; 2) borrar la ruta `cartilla.totis.cl/api/*` y luego el Worker `cartilla-generadores-worker`; 3) quitar el dominio del proyecto Pages `cartilla-generadores-app` y borrar el proyecto; 4) borrar el CNAME `cartilla.totis.cl` si queda; 5) borrar la D1 `cartilla-generadores-db`; 6) borrar el repo `cartilla-generadores-app` en GitHub; 7) desinstalar la PWA del S26. Después sacarla del README.
+2. Borrar el Worker huérfano `totis-web`: 1) abrir el `totis-web` con ícono de Worker; 2) confirmar que en Dominios aparece `totis-web.vgarcesb.workers.dev` y en Configuración están `RESEND_API_KEY` y `TURNSTILE_SECRET_KEY`; 3) apagar los dos interruptores de `workers.dev` y verificar que dejó de responder; 4) Configuración → Eliminar, confirmando con el nombre `totis-web`.
+3. Decidir la espera para recargar las llaves de Access cuando cambian (hoy 5 min en los Workers con JWT; Codex sugirió 30 s). Recomendación: dejar 5 min.
+4. Pruebas en el S26 de aacc, adq, cartilla, generadores, hvac, nls y ups.
+5. Opcional: corregir en caldera los datos "Ubicación" y "Test" de la Bomba Nº1.
 
 ### Mejoras menores (no urgentes)
 1. industrial: quitar el respaldo que lee el header de email cuando falta el JWT.
