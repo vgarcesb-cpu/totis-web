@@ -398,3 +398,30 @@ Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
 - Borrado y verificado en orden: Worker `totis-industrial-api` (con `industrial-api.totis.cl`), proyecto Pages `totis-industrial` (con `industrial.totis.cl`; Cloudflare quitó los dos registros DNS), app de Access `totis-industrial-api`, D1 `totis-industrial-db`, bucket R2 `totis-industrial-files` (2 PDF de prueba), clave de Resend `totis-industrial-worker-2026` y repo de GitHub `totis-industrial`.
 - Quedan: 13 apps de Access, 9 bases D1, 0 buckets R2 y 6 claves de Resend (ups, aacc, generadores, hvac, caldera y mail).
 - Caldera: en CAL-0001 la Ubicación vacía y la marca "Test" de la Bomba Nº1 quedaron como "Por definir" (cambio directo en D1, sin tocar otros campos). Nuevo pendiente: la pantalla "Ficha Caldera" no carga los datos guardados y al guardar los reemplaza con valores fijos (por ejemplo, devolvería el Estado a "Operativa").
+
+## 03/04-nov-2026 — Limpieza de Cloudflare y correo totis.cl
+
+### Cloudflare Access
+- Sesión de las 8 apps (generadores, caldera, hvac, ups, aacc, nls, adq,
+  solicitud-supervisor) subida de 15 min a 12 h. Las políticas heredan la
+  duración de la app.
+- Borradas 14 políticas sin uso, entre ellas 2 `Bypass` a "Everyone"
+  (Public OAuth, Acceso Público) y 1 con correo mal escrito
+  (`vgarcesb@mail.com`).
+- Borradas 5 apps de Access que protegían direcciones inexistentes
+  (portal.totis.cl sin DNS) o `workers.dev` apagado (generadores-worker ×2,
+  portal-aacc-fach-api, hvac-app).
+- Estado final: 8 apps, 8 políticas, todas `Allow` solo a vgarcesb@gmail.com.
+
+### Pages y DNS
+- Borrado el proyecto de Pages `vgarcesb-cpu` (sin dominio, último deploy jul-2026).
+- Agregados los registros de Resend que faltaban: `MX send` →
+  feedback-smtp.us-east-1.amazonses.com (prio 10) y `TXT send` SPF.
+- Agregado DMARC: `_dmarc` → `v=DMARC1; p=quarantine; adkim=r; aspf=r; pct=100`.
+- Prueba con informe real de caldera a Gmail: SPF, DKIM y DMARC = PASS,
+  entregado en Recibidos en 1 s. Resend re-verificado tras agregar los registros.
+
+### Correos de informe en español
+- `shared/informes.js` (caldera, hvac, ups), generadores y aacc: el HTML del
+  correo declara `lang="es"` y `Content-Language: es`. Antes Gmail ofrecía
+  traducir el informe "desde inglés".
