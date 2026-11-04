@@ -95,7 +95,7 @@ const TotisInformes = (function () {
 
     const seccionesHTML = secciones.map(s => renderSeccion(s, colorPrimario)).join('');
 
-    return `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+    return `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta http-equiv="Content-Language" content="es"></head>
 <body style="font-family:Arial,sans-serif;font-size:13px;color:#1a1a1a;max-width:750px;margin:0 auto;background:white;">
   <table style="width:100%;border-collapse:collapse;">
     <tr><td style="background:${escH(colorPrimario)};padding:20px 24px;border-radius:4px 4px 0 0;">
