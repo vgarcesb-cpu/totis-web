@@ -425,3 +425,16 @@ Siguiente en la lista: `supervisor-api`. Pendiente aparte: borrar la cartilla.
 - `shared/informes.js` (caldera, hvac, ups), generadores y aacc: el HTML del
   correo declara `lang="es"` y `Content-Language: es`. Antes Gmail ofrecía
   traducir el informe "desde inglés".
+
+## 05-nov-2026 — Vista previa al compartir www.totis.cl
+
+- La regla "Bloquear fuera de Chile" frenaba a los robots de Facebook,
+  LinkedIn y WhatsApp (403), así que el link se compartía sin tarjeta.
+- Nueva regla WAF "Permitir vista previa en redes sociales" en primer lugar:
+  Skip del resto de reglas, solo para `totis.cl`/`www.totis.cl` y solo para
+  robots verificados de vista previa (`Page Preview`) o WhatsApp. Las apps
+  no cambian.
+- Facebook Debug pasó de 403 a 200 con imagen, título y descripción.
+- WhatsApp mostraba título y descripción sin imagen: la PNG pesaba 645 KB
+  (1800×945). Se agrega `og-totis.jpg` 1200×630 de ~60 KB y las etiquetas
+  `og:image`/`twitter:image` apuntan a ella.

@@ -40,8 +40,8 @@ a sus apps industriales (generadores, HVAC, UPS, calderas).
 - 📝 Sección "Servicios" (4 tarjetas elegantes, títulos en Cormorant serif dorado):
   Sistemas Industriales · Desarrollo Web Full Stack · Troubleshooting & Soporte ·
   Informes & Automatización. Ubicada entre Proyectos y Contacto.
-- 🖼️ Imagen social OG `og-totis.png` (1200×630, dorada, generada con Chromium desde
-  HTML). Meta tags `og:image` + `twitter:card=summary_large_image` actualizadas.
+- 🖼️ Imagen social OG `og-totis.jpg` (1200×630, ~60 KB, dorada; original `og-totis.png`
+  generada con Chromium desde HTML). Meta tags `og:image` + `twitter:card=summary_large_image` actualizadas.
 - Nota: JSON-LD y contador Worker+D1 ya existían previamente.
 
 ## Roadmap — próximas mejoras (elaborar con calma)
@@ -55,16 +55,13 @@ el diseño base):
    con `<picture>` y fallback PNG. (Víctor prefiere convertir sus imágenes con calma.)
 4. **Testimonios / casos de éxito** — de clientes, con estilo dorado coherente.
 5. **Mejorar el modal de contacto** — pulir UX del formulario.
-6. **[PENDIENTE] Desbloquear crawlers de redes sociales en Cloudflare** — la imagen
-   social `og-totis.png` ya está lista y conectada por meta tags, PERO el WAF de
-   Cloudflare (bloqueo geográfico a Chile + Bot Fight Mode) devuelve 403 al robot
-   `facebookexternalhit`, así que la vista previa NO se ve al compartir el link.
-   Fix: en Cloudflare → Security → WAF → Custom rules, crear regla "Skip / All
-   remaining custom rules" para user-agents `facebookexternalhit`, `Twitterbot`,
-   `WhatsApp`, `LinkedInBot`, `Slackbot`, `TelegramBot`, `Discordbot`, y moverla
-   AL TOPE (antes del bloqueo geográfico). Además activar "Allow verified bots" en
-   Bot Fight Mode. La seguridad se mantiene fuerte; solo se abre paso a crawlers
-   legítimos. Verificar luego con developers.facebook.com/tools/debug.
+6. **[HECHO 05-nov-2026] Vista previa en redes sociales** — regla WAF
+   "Permitir vista previa en redes sociales" (Skip, orden 1, antes de "Bloquear
+   fuera de Chile"): solo hosts `totis.cl` y `www.totis.cl`, y solo
+   `cf.verified_bot_category eq "Page Preview"` o user-agent con `WhatsApp`.
+   Las apps siguen bloqueadas fuera de Chile. Imagen social ahora `og-totis.jpg`
+   (1200×630, ~60 KB): WhatsApp descarta imágenes de más de ~300 KB y la PNG
+   pesaba 645 KB. Facebook Debug: 200 OK con imagen.
 
 Regla: mostrar preview (screenshot con Chromium) ANTES de publicar cambios visibles;
 publicar solo con OK explícito de Víctor.
